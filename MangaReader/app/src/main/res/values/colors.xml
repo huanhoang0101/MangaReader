@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="columnColor">#F44A3E</color>
+    <color name="columnColor">#4CAF50</color>
     <color name="textColor">#FEFEFE</color>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>

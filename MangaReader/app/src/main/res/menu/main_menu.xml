@@ -3,17 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_filter"
+        android:id="@+id/action_home"
         android:enabled="true"
-        android:title="Filter"
-        android:icon="@drawable/ic_filter_list_24"
+        android:icon="@drawable/ic_home_24"
+        android:title="Home"
         app:showAsAction="ifRoom" />
-
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_favorite"
         android:enabled="true"
-        android:title="Search"
-        android:icon="@drawable/ic_search_24"
+        android:icon="@drawable/ic_favorite_24"
+        android:title="Yêu thích"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_awesome_24"
+        android:title="Thể loại"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_user"
+        android:enabled="true"
+        android:icon="@drawable/ic_person_24"
+        android:title="Tài khoản"
         app:showAsAction="ifRoom" />
 
 </menu>

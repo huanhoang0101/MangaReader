@@ -12,16 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MangaReader">
         <activity
-            android:name=".FilterSearchActivity"
+            android:name=".Activity.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewComicActivity"
+            android:name=".Activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ChapterActivity"
+            android:name=".Activity.FilterSearchActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.ViewComicActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ChapterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

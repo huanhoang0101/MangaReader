@@ -12,6 +12,7 @@ public class Common {
     public static List<Chapter> chapterList;
     public static Chapter chapterSelected;
     public static int chapterIndex = -1;
+    public static boolean Login = false;
 
     public static String formatString(String name) {
         StringBuilder s = new StringBuilder(name.length() > 15 ? name.substring(0, 15) + "..." : name);

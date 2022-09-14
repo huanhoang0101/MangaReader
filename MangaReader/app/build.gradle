@@ -49,5 +49,7 @@ dependencies {
     implementation 'com.wajahatkarim:easyflipviewpager:2.0.1'
 
     //implementation 'com.github.alirezat775:carousel-view:{latest-version}'
+    implementation 'info.hoang8f:fbutton:1.0.5'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
 
 }

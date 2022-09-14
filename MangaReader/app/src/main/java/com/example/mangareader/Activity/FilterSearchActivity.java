@@ -1,4 +1,4 @@
-package com.example.mangareader;
+package com.example.mangareader.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.mangareader.Adapter.MyComicAdapter;
 import com.example.mangareader.Common.Common;
 import com.example.mangareader.Model.Comic;
+import com.example.mangareader.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -39,12 +40,12 @@ public class FilterSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_search);
 
-        recyclerView = findViewById(R.id.recycler_filter_search);
+        AnhXa();
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        bottomNavigationView = findViewById(R.id.bottom_nav);
-        bottomNavigationView.inflateMenu(R.menu.main_menu);
+        bottomNavigationView.inflateMenu(R.menu.filter_search_menu);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
@@ -58,6 +59,11 @@ public class FilterSearchActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void AnhXa() {
+        recyclerView = findViewById(R.id.recycler_filter_search);
+        bottomNavigationView = findViewById(R.id.bottom_nav);
     }
 
     private void showSearchDialog() {

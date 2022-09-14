@@ -1,4 +1,4 @@
-package com.example.mangareader;
+package com.example.mangareader.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,27 +13,27 @@ import android.widget.TextView;
 import com.example.mangareader.Adapter.MyChapterAdapter;
 import com.example.mangareader.Common.Common;
 import com.example.mangareader.Model.Comic;
+import com.example.mangareader.R;
 
 public class ChapterActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     TextView txtChapterName;
     LinearLayoutManager layoutManager;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chapter);
 
-        //View
-        txtChapterName = findViewById(R.id.txt_chapName);
-        recyclerView = findViewById(R.id.recycler_chapter);
+        AnhXa();
+
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(Common.comicSelected.Name);
 
         //Set icon
@@ -46,6 +46,14 @@ public class ChapterActivity extends AppCompatActivity {
         });
 
         fetchChapter(Common.comicSelected);
+    }
+
+    private void AnhXa() {
+        //View
+        txtChapterName = findViewById(R.id.txt_chapName);
+        recyclerView = findViewById(R.id.recycler_chapter);
+
+        toolbar = findViewById(R.id.toolbar);
     }
 
     private void fetchChapter(Comic comicSelected) {

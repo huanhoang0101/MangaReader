@@ -3,18 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/drawable/ic_filter_list_24.xml" value="0.1565" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/drawable/ic_horizontal_rule_24.xml" value="0.1565" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/drawable/newcomic.xml" value="0.1315" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/activity_chapter.xml" value="0.176" />
-        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/activity_filter_search.xml" value="0.45353159851301117" />
+        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/activity_filter_search.xml" value="0.264" />
+        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/activity_sign_up.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/activity_view_comic.xml" value="0.176" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/dialog_options.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/dialog_search.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/item_chapter.xml" value="0.17777777777777778" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/item_chip.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/item_comic.xml" value="0.1" />
-        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/item_view_pager.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/item_comic.xml" value="0.264" />
+        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/layout/item_view_pager.xml" value="0.264" />
+        <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/menu/filter_search_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/Study/Di Dong/MangaReader/app/src/main/res/menu/main_menu.xml" value="0.25416666666666665" />
       </map>
     </option>

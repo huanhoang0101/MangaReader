@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mangareader.ChapterActivity;
+import com.example.mangareader.Activity.ChapterActivity;
 import com.example.mangareader.Common.Common;
 import com.example.mangareader.Interface.IRecyclerItemClickListener;
 import com.example.mangareader.Model.Comic;

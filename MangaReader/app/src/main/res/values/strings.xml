@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MangaReader</string>
+    <string name="slogan">Vui lòng đăng nhập vào tài khoản của bạn để tiếp tục sử dụng dịch vụ.</string>
+    <string name="slogan_signup">Nhấn nút đăng ký đồng nghĩa với bạn đã đồng ý với các điều khoản của chúng tôi.</string>
 </resources>

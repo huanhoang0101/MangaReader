@@ -1,4 +1,4 @@
-package com.example.mangareader;
+package com.example.mangareader.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.mangareader.Adapter.MyViewPagerAdapter;
 import com.example.mangareader.Common.Common;
 import com.example.mangareader.Model.Chapter;
+import com.example.mangareader.R;
 import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer;
 
 public class ViewComicActivity extends AppCompatActivity {
@@ -24,10 +25,7 @@ public class ViewComicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_comic);
 
-        viewPager = findViewById(R.id.view_pager);
-        txtChapName = findViewById(R.id.txt_chapName);
-        back = findViewById(R.id.chapter_back);
-        next = findViewById(R.id.chapter_next);
+        AnhXa();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +53,13 @@ public class ViewComicActivity extends AppCompatActivity {
             }
         });
         fetchLinks(Common.chapterSelected);
+    }
+
+    private void AnhXa() {
+        viewPager = findViewById(R.id.view_pager);
+        txtChapName = findViewById(R.id.txt_chapName);
+        back = findViewById(R.id.chapter_back);
+        next = findViewById(R.id.chapter_next);
     }
 
     private void fetchLinks(Chapter chapter) {

@@ -10,12 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mangareader.ChapterActivity;
 import com.example.mangareader.Common.Common;
 import com.example.mangareader.Interface.IRecyclerItemClickListener;
 import com.example.mangareader.Model.Chapter;
 import com.example.mangareader.R;
-import com.example.mangareader.ViewComicActivity;
+import com.example.mangareader.Activity.ViewComicActivity;
 
 import java.util.List;
 
