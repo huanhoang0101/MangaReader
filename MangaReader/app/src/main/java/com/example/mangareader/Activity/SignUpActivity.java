@@ -2,6 +2,7 @@ package com.example.mangareader.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     EditText edtUserName, edtPass, edtPassConf, edtEmail;
     Button btnSignUp;
+    Toolbar toolbar;
 
     //Firebase Database
     DatabaseReference table_user;
@@ -32,6 +34,14 @@ public class SignUpActivity extends AppCompatActivity {
 
         AnhXa();
 
+        toolbar.setNavigationIcon(R.drawable.ic_left_24);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         //Check Format Exception
-                        FormatException();
+                        //FormatException();
                         if (FormatException() == false) {
                             //Kiem tra user da ton tai
                             if (snapshot.child(edtUserName.getText().toString()).exists()) {
@@ -72,7 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
             return true;
         }
         if (edtPass.getText().toString().equals(edtPassConf.getText().toString())){
-            Toast.makeText(SignUpActivity.this, "Mật khẩu xác nhận không đúng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, "Mật khẩu xác nhận không khớp", Toast.LENGTH_SHORT).show();
             return false;
         }
         else
@@ -88,5 +98,6 @@ public class SignUpActivity extends AppCompatActivity {
         edtPassConf = findViewById(R.id.edt_pass_xacnhan);
         edtEmail = findViewById(R.id.edt_email);
         btnSignUp = findViewById(R.id.btn_sign_up);
+        toolbar = findViewById(R.id.toolbar);
     }
 }

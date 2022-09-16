@@ -1,10 +1,13 @@
 package com.example.mangareader.Model;
 
+import java.util.List;
+
 public class User {
     private String UserName;
     private String Password;
     private String Name;
     private String Email;
+    private String Favorites;
 
     public User() {
     }
@@ -44,5 +47,13 @@ public class User {
 
     public void setEmail(String email) {
         Email = email;
+    }
+
+    public String getFavorites() {
+        return Favorites;
+    }
+
+    public void setFavorites(String favorites) {
+        Favorites = favorites;
     }
 }

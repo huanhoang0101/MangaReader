@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MangaReader">
         <activity
+            android:name=".Activity.CategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.FavoriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.SignUpActivity"
             android:exported="false" />
         <activity

@@ -2,6 +2,7 @@ package com.example.mangareader.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtUserName, edtPass;
     Button btnLogin;
     TextView txtSignUp;
+    Toolbar toolbar;
 
     //Firebase Database
     DatabaseReference table_user;
@@ -36,10 +38,18 @@ public class LoginActivity extends AppCompatActivity {
 
         AnhXa();
 
+        toolbar.setNavigationIcon(R.drawable.ic_left_24);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                table_user.addValueEventListener(new ValueEventListener() {
+                table_user.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -48,9 +58,14 @@ public class LoginActivity extends AppCompatActivity {
                             //Kiểm tra mật khẩu
                             User user = snapshot.child(edtUserName.getText().toString()).getValue(User.class);
                             user.setUserName(edtUserName.getText().toString());
-                            if (user.getPassword().equals(edtPass.getText().toString())) {
+                            if (user.getPassword().equals(edtPass.getText().toString()))
+                            {
                                 Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                                 Common.Login = true;
+                                Common.currentUser = user;
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                                table_user.removeEventListener(this);
                             } else {
                                 Toast.makeText(LoginActivity.this, "Mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                             }
@@ -82,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPass = findViewById(R.id.edt_pass);
         btnLogin = findViewById(R.id.btn_login);
         txtSignUp = findViewById(R.id.txt_sign_up);
+        toolbar = findViewById(R.id.toolbar);
 
         //Init Database
         table_user = FirebaseDatabase.getInstance().getReference("User");

@@ -20,18 +20,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
-        android:orientation="vertical"
         android:padding="16dp">
 
         <TextView
             android:id="@+id/txt_chapName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CHAPTER (10)"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_favorite"
+            android:layout_weight="1"
+            android:layout_width="160dp"
+            android:layout_height="70dp"
+            android:layout_margin="16dp"
+            android:text="Yêu thích"
+            android:textSize="16sp"
+            android:drawableLeft="@drawable/ic_favorite_24"
+            android:backgroundTint="#FF0057">
+        </Button>
+
+        <Button
+            android:id="@+id/btn_like"
+            android:layout_weight="1"
+            android:layout_width="160dp"
+            android:layout_height="70dp"
+            android:layout_margin="16dp"
+            android:text="Like"
+            android:textSize="16sp"
+            android:drawableLeft="@drawable/ic_like_24"
+            android:backgroundTint="#00B0FF">
+        </Button>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

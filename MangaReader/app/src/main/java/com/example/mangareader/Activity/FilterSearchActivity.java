@@ -3,6 +3,7 @@ package com.example.mangareader.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,7 @@ public class FilterSearchActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     RecyclerView recyclerView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,17 @@ public class FilterSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filter_search);
 
         AnhXa();
+
+        toolbar.setTitle(Common.comicSelected.Name);
+
+        //Set icon
+        toolbar.setNavigationIcon(R.drawable.ic_left_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -64,6 +77,7 @@ public class FilterSearchActivity extends AppCompatActivity {
     private void AnhXa() {
         recyclerView = findViewById(R.id.recycler_filter_search);
         bottomNavigationView = findViewById(R.id.bottom_nav);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     private void showSearchDialog() {

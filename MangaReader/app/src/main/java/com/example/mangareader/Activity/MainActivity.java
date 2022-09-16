@@ -1,11 +1,14 @@
 package com.example.mangareader.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -19,6 +22,7 @@ import com.example.mangareader.Interface.IComicLoadDone;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -85,13 +89,36 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
                         //Dang o Home
                         break;
                     case R.id.action_favorite:
-                        //Qua favorite Ac
+                        if(Common.Login == false) {
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                            alertDialog.setTitle("Thông báo!");
+                            alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+
+                            alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            alertDialog.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                }
+                            });
+                            alertDialog.show();
+                        }
+                        else
+                            startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
                         break;
                     case R.id.action_category:
-                        //qua category Ac
+                        startActivity(new Intent(MainActivity.this, CategoryActivity.class));
                         break;
                     case R.id.action_user:
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        if(Common.Login == false)
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        else
+                            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                         break;
                 }
             }

@@ -7,19 +7,10 @@
     android:background="@color/white"
     tools:context=".Activity.FilterSearchActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/columnColor"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@color/textColor" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/toolbar">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,7 +23,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="ALL COMIC"
+                android:text="YÊU THÍCH"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -45,7 +36,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_filter_search"
+            android:id="@+id/recycler_favorite"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
