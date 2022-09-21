@@ -25,11 +25,19 @@ public class FavoriteActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        fetchFavorite();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
         AnhXa();
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
@@ -58,6 +66,8 @@ public class FavoriteActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     private void AnhXa() {
@@ -75,7 +85,9 @@ public class FavoriteActivity extends AppCompatActivity {
         }
         if(comic_favorite.size() > 0)
             recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_favorite));
-        else
-            Toast.makeText(this,"Bạn chưa yêu thích truyện nào", Toast.LENGTH_SHORT).show();
+        else {
+            recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_favorite));
+            Toast.makeText(this, "Bạn chưa yêu thích truyện nào", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -1,24 +1,24 @@
 package com.example.mangareader.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mangareader.Adapter.MyChapterAdapter;
-import com.example.mangareader.Adapter.MyComicAdapter;
 import com.example.mangareader.Common.Common;
 import com.example.mangareader.Model.Comic;
-import com.example.mangareader.Model.Favorite;
 import com.example.mangareader.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,9 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ChapterActivity extends AppCompatActivity {
@@ -40,9 +38,11 @@ public class ChapterActivity extends AppCompatActivity {
     Button btnFavorite, btnLike;
 
     String newFavorites;
+    String newLike;
 
     //Firebase Database
     DatabaseReference table_user;
+    DatabaseReference table_comic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,19 +70,71 @@ public class ChapterActivity extends AppCompatActivity {
         fetchChapter(Common.comicSelected);
 
         //View Favorite and Like
-        ViewFavoriteAndLike();
+        if(Common.Login)
+            ViewFavoriteAndLike();
 
         //Favorite
         btnFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Common.currentUser.getFavorites().contains(Common.comicSelected.Id))
-                {
-                    RemoveFavorite();
+                if (Common.Login) {
+                    if (Common.currentUser.getFavorites().contains(Common.comicSelected.Id)) {
+                        RemoveFavorite();
+                    } else {
+                        AddFavorite();
+                    }
                 }
-                else
-                {
-                    AddFavorite();
+                else {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChapterActivity.this);
+                    alertDialog.setTitle("Thông báo!");
+                    alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+
+                    alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    alertDialog.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(ChapterActivity.this, LoginActivity.class));
+                        }
+                    });
+                    alertDialog.show();
+                }
+            }
+        });
+
+        //Like
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Common.Login) {
+                    if (Common.currentUser.getLike().contains(Common.comicSelected.Id)) {
+                        RemoveLike();
+                    } else {
+                        AddLike();
+                    }
+                }
+                else {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChapterActivity.this);
+                    alertDialog.setTitle("Thông báo!");
+                    alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+
+                    alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    alertDialog.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(ChapterActivity.this, LoginActivity.class));
+                        }
+                    });
+                    alertDialog.show();
                 }
             }
         });
@@ -90,14 +142,19 @@ public class ChapterActivity extends AppCompatActivity {
 
     private void ViewFavoriteAndLike() {
         //Favorite
-        if(Common.currentUser.getFavorites().contains(Common.comicSelected.Id)){
+        if (Common.currentUser.getFavorites().contains(Common.comicSelected.Id)) {
             btnFavorite.setText("Đã yêu thích");
+        }
+        //Like
+        if (Common.currentUser.getLike().contains(Common.comicSelected.Id)) {
+            btnLike.setText("Đã Like");
         }
     }
 
     private void AnhXa() {
         //Init Database
         table_user = FirebaseDatabase.getInstance().getReference("User");
+        table_comic = FirebaseDatabase.getInstance().getReference("Comic");
 
         txtChapterName = findViewById(R.id.txt_chapName);
         recyclerView = findViewById(R.id.recycler_chapter);
@@ -110,13 +167,16 @@ public class ChapterActivity extends AppCompatActivity {
         Common.chapterList = comicSelected.Chapters;
         recyclerView.setAdapter(new MyChapterAdapter(this, comicSelected.Chapters));
         txtChapterName.setText(new StringBuilder("CHAPTER (")
-        .append(comicSelected.Chapters.size())
-        .append(")"));
+                .append(comicSelected.Chapters.size())
+                .append(")"));
     }
 
-    private void AddFavorite(){
+    private void AddFavorite() {
         Map<String, Object> favorites = new HashMap<>();
-        newFavorites = Common.currentUser.getFavorites() + "," + Common.comicSelected.Id;
+        if(Common.currentUser.getFavorites().length() == 0)
+            newFavorites = Common.currentUser.getFavorites() + Common.comicSelected.Id;
+        else
+            newFavorites = Common.currentUser.getFavorites() + "," + Common.comicSelected.Id;
         favorites.put("favorites", newFavorites);
 
         table_user.child(Common.currentUser.getUserName())
@@ -137,19 +197,19 @@ public class ChapterActivity extends AppCompatActivity {
                 });
     }
 
-    private void RemoveFavorite(){
+    private void RemoveFavorite() {
         String oldFavorites = Common.currentUser.getFavorites();
         String[] arr = oldFavorites.split(",");
         newFavorites = "";
-        for (String s: arr) {
-            if(s.equals(Common.comicSelected.Id)){
+        for (String s : arr) {
+            if (s.equals(Common.comicSelected.Id)) {
                 continue;
-            }
-            else {
+            } else {
                 newFavorites = newFavorites + "," + s;
             }
         }
-        newFavorites = newFavorites.substring(1);
+        if (newFavorites.length() > 0)
+            newFavorites = newFavorites.substring(1);
 
         Map<String, Object> favorites = new HashMap<>();
         favorites.put("favorites", newFavorites);
@@ -162,6 +222,92 @@ public class ChapterActivity extends AppCompatActivity {
                         btnFavorite.setText("Yêu thích");
                         Common.currentUser.setFavorites(newFavorites);
                         Toast.makeText(ChapterActivity.this, "Đã xóa khỏi Yêu thích", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ChapterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void AddLike(){
+        Map<String, Object> likes = new HashMap<>();
+        if(Common.currentUser.getLike().length() == 0)
+            newLike = Common.currentUser.getLike() + Common.comicSelected.Id;
+        else
+            newLike = Common.currentUser.getLike() + "," + Common.comicSelected.Id;
+        likes.put("like", newLike);
+
+        table_user.child(Common.currentUser.getUserName())
+                .updateChildren(likes)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        btnLike.setText("Đã Like");
+                        Common.currentUser.setLike(newLike);
+                        Common.comicSelected.Like = Common.comicSelected.Like + 1;
+                        UpdateLikeComic();
+                        Toast.makeText(ChapterActivity.this, "Đã Like truyện này", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ChapterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void RemoveLike() {
+        String oldLike = Common.currentUser.getLike();
+        String[] arr = oldLike.split(",");
+        newLike = "";
+        for (String s : arr) {
+            if (s.equals(Common.comicSelected.Id)) {
+                continue;
+            } else {
+                newLike = newLike + "," + s;
+            }
+        }
+        if (newLike.length() > 0)
+            newLike = newLike.substring(1);
+
+        Map<String, Object> likes = new HashMap<>();
+        likes.put("like", newLike);
+
+        table_user.child(Common.currentUser.getUserName())
+                .updateChildren(likes)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        btnLike.setText("Like");
+                        Common.currentUser.setLike(newLike);
+                        Common.comicSelected.Like = Common.comicSelected.Like - 1;
+                        UpdateLikeComic();
+                        Toast.makeText(ChapterActivity.this, "Đã hủy Like", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ChapterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void UpdateLikeComic(){
+        Map<String, Object> like = new HashMap<>();
+        int Likes = Common.comicSelected.Like;
+        like.put("Like", Likes);
+
+        table_comic.child(Common.comicSelected.Id)
+                .updateChildren(like)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -8,6 +8,7 @@ public class User {
     private String Name;
     private String Email;
     private String Favorites;
+    private String Like;
 
     public User() {
     }
@@ -55,5 +56,13 @@ public class User {
 
     public void setFavorites(String favorites) {
         Favorites = favorites;
+    }
+
+    public String getLike() {
+        return Like;
+    }
+
+    public void setLike(String like) {
+        Like = like;
     }
 }

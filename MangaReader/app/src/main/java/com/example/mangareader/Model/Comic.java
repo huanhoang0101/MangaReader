@@ -8,6 +8,7 @@ public class Comic {
     public String Image;
     public String Category;
     public List<Chapter> Chapters;
+    public int Like;
 
     public Comic() {
     }
