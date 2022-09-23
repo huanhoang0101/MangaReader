@@ -3,6 +3,7 @@ package com.example.mangareader.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
     BottomNavigationView bottomNavigationView;
 
     //Firebase Database
-    DatabaseReference comics;
+    DatabaseReference table_comic;
 
     //Listener
     IComicLoadDone comicListener;
@@ -78,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
         });
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         bottomNavigationView.inflateMenu(R.menu.main_menu);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -127,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
 
     private void AnhXa() {
         //Init Database
-        comics = FirebaseDatabase.getInstance().getReference("Comic");
+        table_comic = FirebaseDatabase.getInstance().getReference("Comic");
 
         //Init Listener
         comicListener = this;
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
     }
 
     private void loadComic() {
-        comics.addListenerForSingleValueEvent(new ValueEventListener() {
+        table_comic.addListenerForSingleValueEvent(new ValueEventListener() {
             List<Comic> comic_load = new ArrayList<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -170,6 +172,6 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
         .append(comicList.size())
         .append(")"));
 
-
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

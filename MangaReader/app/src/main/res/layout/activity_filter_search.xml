@@ -12,12 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/columnColor"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@color/textColor" />
+        android:minHeight="?attr/actionBarSize">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TÌM KIẾM"
+            android:textColor="@color/textColor"
+            android:textSize="28sp"
+            android:layout_gravity="center"/>
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bottom_nav"
         android:orientation="vertical"
         android:layout_below="@+id/toolbar">
 
@@ -26,21 +34,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="8dp"
-            android:weightSum="4">
+            android:weightSum="7">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:text="ALL COMIC"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <View
-                android:layout_width="141dp"
+                android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:background="@drawable/ic_horizontal_rule_24" />
         </LinearLayout>
 

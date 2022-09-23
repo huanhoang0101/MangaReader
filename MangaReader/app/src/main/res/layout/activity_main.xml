@@ -8,6 +8,7 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
+        android:layout_above="@+id/menu_nav"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -78,4 +79,5 @@
         android:background="@color/columnColor"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white" />
+
 </RelativeLayout>

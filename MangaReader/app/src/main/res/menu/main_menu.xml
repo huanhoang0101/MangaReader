@@ -12,8 +12,9 @@
         android:id="@+id/action_favorite"
         android:enabled="true"
         android:icon="@drawable/ic_favorite_24"
-        android:title="Yêu thích"
-        app:showAsAction="ifRoom" />
+        android:title="Theo dõi"
+        app:showAsAction="ifRoom"
+        />
     <item
         android:id="@+id/action_category"
         android:enabled="true"

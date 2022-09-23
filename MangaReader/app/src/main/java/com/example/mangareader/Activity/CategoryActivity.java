@@ -51,7 +51,7 @@ public class CategoryActivity extends AppCompatActivity {
         ViewChipCategory();
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
 
         bottomNavigationView.inflateMenu(R.menu.main_menu);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -99,6 +99,9 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void ViewChipCategory() {
+        chipAll.setChecked(true);
+        recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), Common.comicList));
+
         LayoutInflater inflater = getLayoutInflater();
         for(String s: Common.categories){
             Chip chip =  new Chip(this);
@@ -113,7 +116,6 @@ public class CategoryActivity extends AppCompatActivity {
             });
             chipGroup.addView(chip);
         }
-
     }
 
     private void AnhXa() {

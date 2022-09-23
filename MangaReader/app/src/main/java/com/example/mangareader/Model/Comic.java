@@ -9,6 +9,8 @@ public class Comic {
     public String Category;
     public List<Chapter> Chapters;
     public int Like;
+    public int Favorite;
+    public String Summary;
 
     public Comic() {
     }

@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bottom_nav"
         android:orientation="vertical">
 
         <LinearLayout
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="8dp"
-            android:weightSum="4">
+            android:weightSum="5">
 
             <TextView
                 android:layout_width="0dp"
@@ -27,16 +28,18 @@
                 android:textStyle="bold" />
 
             <View
-                android:layout_width="141dp"
-                android:layout_height="32dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="@drawable/ic_horizontal_rule_24" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp">
 
             <HorizontalScrollView
                 android:id="@+id/txt123"
@@ -68,7 +71,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_category"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:padding="8dp"/>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

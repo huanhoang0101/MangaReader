@@ -1,5 +1,6 @@
 package com.example.mangareader.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import com.example.mangareader.Common.Common;
 import com.example.mangareader.Interface.IRecyclerItemClickListener;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -39,10 +42,17 @@ public class MyComicAdapter extends RecyclerView.Adapter<MyComicAdapter.MyViewHo
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Picasso.get().load(comicList.get(position).Image).into(holder.comicImage);
-        holder.comicName.setText(comicList.get(position).Name);
+        if(comicList.get(position).Name.length() <= 25)
+            holder.comicName.setText(comicList.get(position).Name);
+        else
+            holder.comicName.setText(comicList.get(position).Name.substring(0, 22) + "...");
+        holder.txtFavorite.setText(String.valueOf(comicList.get(position).Favorite));
+        holder.txtLike.setText(String.valueOf(comicList.get(position).Like));
+        holder.txtCategory.setText("Thể loại: " + comicList.get(position).Category);
 
         //Event
         holder.setRecyclerItemClickListener(new IRecyclerItemClickListener() {
@@ -65,6 +75,7 @@ public class MyComicAdapter extends RecyclerView.Adapter<MyComicAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView comicName;
         ImageView comicImage;
+        TextView txtFavorite, txtLike, txtCategory;
 
         IRecyclerItemClickListener recyclerItemClickListener;
 
@@ -77,6 +88,9 @@ public class MyComicAdapter extends RecyclerView.Adapter<MyComicAdapter.MyViewHo
 
             comicImage = itemView.findViewById(R.id.image_comic);
             comicName = itemView.findViewById(R.id.txt_comicName);
+            txtCategory = itemView.findViewById(R.id.txt_category);
+            txtFavorite = itemView.findViewById(R.id.txt_favorite);
+            txtLike = itemView.findViewById(R.id.txt_like);
 
             itemView.setOnClickListener(this);
         }

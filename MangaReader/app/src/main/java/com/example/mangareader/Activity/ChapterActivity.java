@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +25,11 @@ import com.example.mangareader.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +41,9 @@ public class ChapterActivity extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     Toolbar toolbar;
     Button btnFavorite, btnLike;
+    ImageView imgBanner;
+    TextView txtFavorite, txtLike, txtSummary;
+    ChipGroup chipGroup;
 
     String newFavorites;
     String newLike;
@@ -67,10 +75,11 @@ public class ChapterActivity extends AppCompatActivity {
             }
         });
 
+        LoadInfoComic();
         fetchChapter(Common.comicSelected);
 
         //View Favorite and Like
-        if(Common.Login)
+        if (Common.Login)
             ViewFavoriteAndLike();
 
         //Favorite
@@ -83,8 +92,7 @@ public class ChapterActivity extends AppCompatActivity {
                     } else {
                         AddFavorite();
                     }
-                }
-                else {
+                } else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChapterActivity.this);
                     alertDialog.setTitle("Thông báo!");
                     alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
@@ -116,8 +124,7 @@ public class ChapterActivity extends AppCompatActivity {
                     } else {
                         AddLike();
                     }
-                }
-                else {
+                } else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChapterActivity.this);
                     alertDialog.setTitle("Thông báo!");
                     alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
@@ -143,7 +150,7 @@ public class ChapterActivity extends AppCompatActivity {
     private void ViewFavoriteAndLike() {
         //Favorite
         if (Common.currentUser.getFavorites().contains(Common.comicSelected.Id)) {
-            btnFavorite.setText("Đã yêu thích");
+            btnFavorite.setText("Đã theo dõi");
         }
         //Like
         if (Common.currentUser.getLike().contains(Common.comicSelected.Id)) {
@@ -161,6 +168,11 @@ public class ChapterActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         btnFavorite = findViewById(R.id.btn_favorite);
         btnLike = findViewById(R.id.btn_like);
+        imgBanner = findViewById(R.id.img_banner_chapter);
+        txtFavorite = findViewById(R.id.txt_favorite);
+        txtLike = findViewById(R.id.txt_like);
+        chipGroup = findViewById(R.id.chip_group_chapter);
+        txtSummary = findViewById(R.id.txt_summary);
     }
 
     private void fetchChapter(Comic comicSelected) {
@@ -173,7 +185,7 @@ public class ChapterActivity extends AppCompatActivity {
 
     private void AddFavorite() {
         Map<String, Object> favorites = new HashMap<>();
-        if(Common.currentUser.getFavorites().length() == 0)
+        if (Common.currentUser.getFavorites().length() == 0)
             newFavorites = Common.currentUser.getFavorites() + Common.comicSelected.Id;
         else
             newFavorites = Common.currentUser.getFavorites() + "," + Common.comicSelected.Id;
@@ -184,9 +196,11 @@ public class ChapterActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        btnFavorite.setText("Đã yêu thích");
+                        btnFavorite.setText("Đã theo dõi");
                         Common.currentUser.setFavorites(newFavorites);
-                        Toast.makeText(ChapterActivity.this, "Đã thêm vào Yêu thích", Toast.LENGTH_SHORT).show();
+                        Common.comicSelected.Favorite = Common.comicSelected.Favorite + 1;
+                        UpdateFavoriteComic();
+                        Toast.makeText(ChapterActivity.this, "Đã thêm vào danh sách theo dõi", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -219,9 +233,11 @@ public class ChapterActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        btnFavorite.setText("Yêu thích");
+                        btnFavorite.setText("Theo dõi");
                         Common.currentUser.setFavorites(newFavorites);
-                        Toast.makeText(ChapterActivity.this, "Đã xóa khỏi Yêu thích", Toast.LENGTH_SHORT).show();
+                        Common.comicSelected.Favorite = Common.comicSelected.Favorite - 1;
+                        UpdateFavoriteComic();
+                        Toast.makeText(ChapterActivity.this, "Đã xóa khỏi danh sách theo dõi", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -232,9 +248,9 @@ public class ChapterActivity extends AppCompatActivity {
                 });
     }
 
-    private void AddLike(){
+    private void AddLike() {
         Map<String, Object> likes = new HashMap<>();
-        if(Common.currentUser.getLike().length() == 0)
+        if (Common.currentUser.getLike().length() == 0)
             newLike = Common.currentUser.getLike() + Common.comicSelected.Id;
         else
             newLike = Common.currentUser.getLike() + "," + Common.comicSelected.Id;
@@ -297,7 +313,7 @@ public class ChapterActivity extends AppCompatActivity {
                 });
     }
 
-    private void UpdateLikeComic(){
+    private void UpdateLikeComic() {
         Map<String, Object> like = new HashMap<>();
         int Likes = Common.comicSelected.Like;
         like.put("Like", Likes);
@@ -316,5 +332,50 @@ public class ChapterActivity extends AppCompatActivity {
                         Toast.makeText(ChapterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void UpdateFavoriteComic() {
+        Map<String, Object> favorite = new HashMap<>();
+        int favorites = Common.comicSelected.Favorite;
+        favorite.put("Favorite", favorites);
+
+        table_comic.child(Common.comicSelected.Id)
+                .updateChildren(favorite)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ChapterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void LoadInfoComic() {
+        Picasso.get().load(Common.comicSelected.Image).into(imgBanner);
+
+        txtFavorite.setText(String.valueOf(Common.comicSelected.Favorite));
+        txtLike.setText(String.valueOf(Common.comicSelected.Like));
+
+        String category = Common.comicSelected.Category;
+        String[] arr = category.split(",");
+
+        for (String s : arr) {
+            Chip chip = new Chip(this);
+            chip.setText(s);
+            chip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            chipGroup.addView(chip);
+        }
+
+        txtSummary.setText(Common.comicSelected.Summary);
     }
 }

@@ -44,8 +44,6 @@ public class FilterSearchActivity extends AppCompatActivity {
 
         AnhXa();
 
-        toolbar.setTitle(Common.comicSelected.Name);
-
         //Set icon
         toolbar.setNavigationIcon(R.drawable.ic_left_24);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -56,7 +54,7 @@ public class FilterSearchActivity extends AppCompatActivity {
         });
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
 
         bottomNavigationView.inflateMenu(R.menu.filter_search_menu);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
