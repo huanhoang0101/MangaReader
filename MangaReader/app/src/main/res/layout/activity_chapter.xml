@@ -41,12 +41,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:weightSum="5">
+                android:weightSum="4">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:weightSum="7">
 
                     <TextView
@@ -69,8 +69,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:weightSum="7">
 
                     <TextView
@@ -94,8 +94,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
                     android:orientation="vertical">
 
                     <TextView
@@ -108,6 +108,7 @@
                     <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="4dp"
                         android:scrollbars="none">
 
                         <com.google.android.material.chip.ChipGroup

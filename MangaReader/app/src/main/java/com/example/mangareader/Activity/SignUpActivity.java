@@ -50,8 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         //Check Format Exception
-                        //FormatException();
-                        if (FormatException() == false) {
+                        if (!FormatException()) {
                             //Kiem tra user da ton tai
                             if (snapshot.child(edtUserName.getText().toString()).exists()) {
                                 Toast.makeText(SignUpActivity.this, "Tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
@@ -81,12 +80,16 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(SignUpActivity.this, "Chưa nhập tài khoản", Toast.LENGTH_SHORT).show();
             return true;
         }
-        if (edtPass.getText().toString().equals(edtPassConf.getText().toString())){
-            Toast.makeText(SignUpActivity.this, "Mật khẩu xác nhận không khớp", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else
+        if(!(edtEmail.getText().toString().isEmpty()) && !(edtEmail.getText().toString().equals("@gmail.com"))) {
+            Toast.makeText(SignUpActivity.this, "Sai định dạng Email", Toast.LENGTH_SHORT).show();
             return true;
+        }
+        if (edtPass.getText().toString().equals(edtPassConf.getText().toString()))
+            return false;
+        else{
+            Toast.makeText(SignUpActivity.this, "Mật khẩu xác nhận không khớp", Toast.LENGTH_SHORT).show();
+            return true;
+        }
     }
 
     private void AnhXa() {

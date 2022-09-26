@@ -48,7 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/columnColor"
-        app:itemTextColor="@color/white"
-        app:itemIconTint="@color/white"/>
+        app:itemIconTint="@color/item_menu"
+        app:itemTextColor="@color/item_menu"
+        app:menu="@menu/main_menu"/>
 
 </RelativeLayout>

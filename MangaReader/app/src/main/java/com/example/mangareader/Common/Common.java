@@ -1,5 +1,12 @@
 package com.example.mangareader.Common;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+
+import androidx.appcompat.app.AlertDialog;
+
+import com.example.mangareader.Activity.LoginActivity;
 import com.example.mangareader.Model.Chapter;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.Model.User;
@@ -31,8 +38,8 @@ public class Common {
             "Fantasy",
             "Shounen",
             "Shoujo",
-            "School life",
-            "Slice of life",
+            "School Life",
+            "Slice Of Life",
             "Gender bender",
             "Harem",
             "Historical",

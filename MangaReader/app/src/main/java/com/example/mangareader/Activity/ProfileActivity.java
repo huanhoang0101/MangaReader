@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -44,34 +46,18 @@ public class ProfileActivity extends AppCompatActivity {
         AnhXa();
         ShowInfo();
 
-        bottomNavigationView.inflateMenu(R.menu.main_menu);
-        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+        bottomNavigationView.setSelectedItemId(R.id.action_user);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         startActivity(new Intent(ProfileActivity.this, MainActivity.class));
                         break;
                     case R.id.action_favorite:
-                        if(Common.Login == false) {
-                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
-                            alertDialog.setTitle("Thông báo!");
-                            alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
-
-                            alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
-                            alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-                                }
-                            });
-                            alertDialog.show();
-                        }
+                        if(!Common.Login)
+                            ShowDialogLogin();
                         else
                             startActivity(new Intent(ProfileActivity.this, FavoriteActivity.class));
                         break;
@@ -82,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
                         //Dang o user
                         break;
                 }
+                return true;
             }
         });
 
@@ -139,7 +126,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void ShowNameChangeDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
-        alertDialog.setTitle("Đổi tên");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View nameChange_layout = inflater.inflate(R.layout.dialog_name_change, null);
@@ -154,7 +140,7 @@ public class ProfileActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setNegativeButton("ĐỔI", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("ĐỔI", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Map<String, Object> nameChange = new HashMap<>();
@@ -183,7 +169,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void ShowEmailChangeDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
-        alertDialog.setTitle("Đổi Email");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View emailChange_layout = inflater.inflate(R.layout.dialog_email_change, null);
@@ -198,7 +183,7 @@ public class ProfileActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setNegativeButton("ĐỔI", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("ĐỔI", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Map<String, Object> EmailChange = new HashMap<>();
@@ -227,7 +212,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void ShowPasswordChangeDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
-        alertDialog.setTitle("Đổi mật khẩu");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View passChange_layout = inflater.inflate(R.layout.dialog_pass_change, null);
@@ -244,7 +228,7 @@ public class ProfileActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setNegativeButton("Thay đổi", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Thay đổi", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //Change Pass
@@ -280,6 +264,26 @@ public class ProfileActivity extends AppCompatActivity {
                 {
                     Toast.makeText(ProfileActivity.this, "Mật khẩu hiện tại không chính xác", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        alertDialog.show();
+    }
+
+    private void ShowDialogLogin(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
+        alertDialog.setTitle("Thông báo!");
+        alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+
+        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
             }
         });
         alertDialog.show();

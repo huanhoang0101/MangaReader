@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,9 +25,11 @@ import com.example.mangareader.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CategoryActivity extends AppCompatActivity {
 
@@ -55,34 +58,18 @@ public class CategoryActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        bottomNavigationView.inflateMenu(R.menu.main_menu);
-        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+        bottomNavigationView.setSelectedItemId(R.id.action_category);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         startActivity(new Intent(CategoryActivity.this, MainActivity.class));
                         break;
                     case R.id.action_favorite:
-                        if(Common.Login == false) {
-                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(CategoryActivity.this);
-                            alertDialog.setTitle("Thông báo!");
-                            alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
-
-                            alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
-                            alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(CategoryActivity.this, LoginActivity.class));
-                                }
-                            });
-                            alertDialog.show();
-                        }
+                        if(!Common.Login)
+                            ShowDialogLogin();
                         else
                             startActivity(new Intent(CategoryActivity.this, FavoriteActivity.class));
                         break;
@@ -90,12 +77,13 @@ public class CategoryActivity extends AppCompatActivity {
                         //Dang o category
                         break;
                     case R.id.action_user:
-                        if(Common.Login == false)
+                        if(!Common.Login)
                             startActivity(new Intent(CategoryActivity.this, LoginActivity.class));
                         else
                             startActivity(new Intent(CategoryActivity.this, ProfileActivity.class));
                         break;
                 }
+                return true;
             }
         });
     }
@@ -136,7 +124,7 @@ public class CategoryActivity extends AppCompatActivity {
         List<Comic> comic_category = new ArrayList<>();
         for (Comic c : Common.comicList) {
             if (c.Category != null) {
-                if (c.Category.contains(chip.getText().toString()))
+                if (c.Category.toLowerCase().contains(chip.getText().toString().toLowerCase(Locale.ROOT)))
                     comic_category.add(c);
             }
         }
@@ -160,5 +148,25 @@ public class CategoryActivity extends AppCompatActivity {
         }
         recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_category));
         Common.ChipCategoryClicked = "";
+    }
+
+    private void ShowDialogLogin(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(CategoryActivity.this);
+        alertDialog.setTitle("Thông báo!");
+        alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+
+        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(CategoryActivity.this, LoginActivity.class));
+            }
+        });
+        alertDialog.show();
     }
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,58 +84,32 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-//        bottomNavigationView.inflateMenu(R.menu.main_menu);
-//        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-//            @Override
-//            public void onNavigationItemReselected(@NonNull MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.action_home:
-//                        //Dang o Home
-//                        break;
-//                    case R.id.action_favorite:
-//                        if(Common.Login == false) {
-//                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-//                            alertDialog.setTitle("Thông báo!");
-//                            alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
-//
-//                            alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    dialogInterface.dismiss();
-//                                }
-//                            });
-//                            alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//                                }
-//                            });
-//                            alertDialog.show();
-//                        }
-//                        else
-//                            startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
-//                        break;
-//                    case R.id.action_category:
-//                        startActivity(new Intent(MainActivity.this, CategoryActivity.class));
-//                        break;
-//                    case R.id.action_user:
-//                        if(Common.Login == false)
-//                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//                        else
-//                            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-//                        break;
-//                }
-//            }
-//        });
-
-        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.action_home:
+                        //Dang o home
+                        break;
+                    case R.id.action_favorite:
+                        if(!Common.Login)
+                            ShowDialogLogin();
+                        else
+                            startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
+                        break;
                     case R.id.action_category:
                         startActivity(new Intent(MainActivity.this, CategoryActivity.class));
                         break;
+                    case R.id.action_user:
+                        if(!Common.Login)
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        else
+                            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                        break;
                 }
+                return true;
             }
         });
     }
@@ -184,5 +160,25 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
         .append(")"));
 
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void ShowDialogLogin(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setTitle("Thông báo!");
+        alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+
+        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+        alertDialog.show();
     }
 }

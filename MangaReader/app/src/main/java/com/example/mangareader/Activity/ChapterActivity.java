@@ -93,23 +93,7 @@ public class ChapterActivity extends AppCompatActivity {
                         AddFavorite();
                     }
                 } else {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChapterActivity.this);
-                    alertDialog.setTitle("Thông báo!");
-                    alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
-
-                    alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    alertDialog.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivity(new Intent(ChapterActivity.this, LoginActivity.class));
-                        }
-                    });
-                    alertDialog.show();
+                    ShowDialogLogin();
                 }
             }
         });
@@ -125,23 +109,7 @@ public class ChapterActivity extends AppCompatActivity {
                         AddLike();
                     }
                 } else {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChapterActivity.this);
-                    alertDialog.setTitle("Thông báo!");
-                    alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
-
-                    alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    alertDialog.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivity(new Intent(ChapterActivity.this, LoginActivity.class));
-                        }
-                    });
-                    alertDialog.show();
+                    ShowDialogLogin();
                 }
             }
         });
@@ -378,5 +346,25 @@ public class ChapterActivity extends AppCompatActivity {
         }
 
         txtSummary.setText(Common.comicSelected.Summary);
+    }
+
+    private void ShowDialogLogin(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChapterActivity.this);
+        alertDialog.setTitle("Thông báo!");
+        alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+
+        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(ChapterActivity.this, LoginActivity.class));
+            }
+        });
+        alertDialog.show();
     }
 }
