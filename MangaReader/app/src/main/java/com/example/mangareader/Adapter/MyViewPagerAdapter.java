@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -48,6 +49,12 @@ public class MyViewPagerAdapter extends PagerAdapter {
 
         PhotoView pageImage = image_layout.findViewById(R.id.page_image);
         Picasso.get().load(imgLink.get(position)).into(pageImage);
+
+        TextView txtSoTrang = image_layout.findViewById(R.id.txt_soTrang);
+        txtSoTrang.setText(new StringBuilder(10)
+                .append(position + 1)
+                .append("/")
+                .append(imgLink.size()));
 
         container.addView(image_layout);
         return image_layout;

@@ -370,7 +370,8 @@ public class ChapterActivity extends AppCompatActivity {
             chip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Common.ChipCategoryClicked = s;
+                    startActivity(new Intent(ChapterActivity.this, CategoryActivity.class));
                 }
             });
             chipGroup.addView(chip);

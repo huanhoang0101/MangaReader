@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     dialogInterface.dismiss();
                                 }
                             });
-                            alertDialog.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
+                            alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     startActivity(new Intent(ProfileActivity.this, LoginActivity.class));

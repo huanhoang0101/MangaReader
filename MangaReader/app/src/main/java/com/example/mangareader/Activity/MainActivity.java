@@ -82,45 +82,56 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        bottomNavigationView.inflateMenu(R.menu.main_menu);
+//        bottomNavigationView.inflateMenu(R.menu.main_menu);
+//        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+//            @Override
+//            public void onNavigationItemReselected(@NonNull MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.action_home:
+//                        //Dang o Home
+//                        break;
+//                    case R.id.action_favorite:
+//                        if(Common.Login == false) {
+//                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+//                            alertDialog.setTitle("Thông báo!");
+//                            alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+//
+//                            alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    dialogInterface.dismiss();
+//                                }
+//                            });
+//                            alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                                }
+//                            });
+//                            alertDialog.show();
+//                        }
+//                        else
+//                            startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
+//                        break;
+//                    case R.id.action_category:
+//                        startActivity(new Intent(MainActivity.this, CategoryActivity.class));
+//                        break;
+//                    case R.id.action_user:
+//                        if(Common.Login == false)
+//                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                        else
+//                            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+//                        break;
+//                }
+//            }
+//        });
+
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_home:
-                        //Dang o Home
-                        break;
-                    case R.id.action_favorite:
-                        if(Common.Login == false) {
-                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                            alertDialog.setTitle("Thông báo!");
-                            alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
-
-                            alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
-                            alertDialog.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                                }
-                            });
-                            alertDialog.show();
-                        }
-                        else
-                            startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
-                        break;
                     case R.id.action_category:
                         startActivity(new Intent(MainActivity.this, CategoryActivity.class));
-                        break;
-                    case R.id.action_user:
-                        if(Common.Login == false)
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        else
-                            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                         break;
                 }
             }

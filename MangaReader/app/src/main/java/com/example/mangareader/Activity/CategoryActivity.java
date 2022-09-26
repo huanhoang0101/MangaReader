@@ -3,6 +3,7 @@ package com.example.mangareader.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +53,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         bottomNavigationView.inflateMenu(R.menu.main_menu);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -73,7 +75,7 @@ public class CategoryActivity extends AppCompatActivity {
                                     dialogInterface.dismiss();
                                 }
                             });
-                            alertDialog.setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
+                            alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     startActivity(new Intent(CategoryActivity.this, LoginActivity.class));
@@ -99,8 +101,13 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void ViewChipCategory() {
-        chipAll.setChecked(true);
-        recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), Common.comicList));
+        if(Common.ChipCategoryClicked.equals("")) {
+            chipAll.setChecked(true);
+            recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), Common.comicList));
+        }
+        else {
+            SearchCategoryChip();
+        }
 
         LayoutInflater inflater = getLayoutInflater();
         for(String s: Common.categories){
@@ -141,5 +148,17 @@ public class CategoryActivity extends AppCompatActivity {
             recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_category));
             Toast.makeText(this, "Chưa có truyện thuộc thể loại này", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void SearchCategoryChip(){
+        List<Comic> comic_category = new ArrayList<>();
+        for (Comic c : Common.comicList) {
+            if (c.Category != null) {
+                if (c.Category.contains(Common.ChipCategoryClicked))
+                    comic_category.add(c);
+            }
+        }
+        recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_category));
+        Common.ChipCategoryClicked = "";
     }
 }

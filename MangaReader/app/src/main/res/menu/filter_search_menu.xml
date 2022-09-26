@@ -5,14 +5,14 @@
     <item
         android:id="@+id/action_filter"
         android:enabled="true"
-        android:title="Filter"
+        android:title="Lọc theo thể loại"
         android:icon="@drawable/ic_filter_list_24"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_search"
         android:enabled="true"
-        android:title="Search"
+        android:title="Tìm kiếm theo tên"
         android:icon="@drawable/ic_search_24"
         app:showAsAction="ifRoom" />
 

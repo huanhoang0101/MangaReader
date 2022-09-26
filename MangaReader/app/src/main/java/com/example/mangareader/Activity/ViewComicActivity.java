@@ -36,6 +36,7 @@ public class ViewComicActivity extends AppCompatActivity {
                 {
                     Common.chapterIndex--;
                     fetchLinks(Common.chapterList.get(Common.chapterIndex));
+                    txtChapName.setText(Common.chapterList.get(Common.chapterIndex).Name);
                 }
             }
         });
@@ -49,6 +50,7 @@ public class ViewComicActivity extends AppCompatActivity {
                 {
                     Common.chapterIndex++;
                     fetchLinks(Common.chapterList.get(Common.chapterIndex));
+                    txtChapName.setText(Common.chapterList.get(Common.chapterIndex).Name);
                 }
             }
         });
