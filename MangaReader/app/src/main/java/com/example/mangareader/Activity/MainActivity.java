@@ -16,11 +16,18 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.mangareader.Adapter.MyComicAdapter;
 import com.example.mangareader.Common.Common;
 import com.example.mangareader.Interface.IComicLoadDone;
+import com.example.mangareader.Model.Banner;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -42,9 +49,11 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
     SwipeRefreshLayout swipeRefreshLayout;
     ImageView btnFilterSearch;
     BottomNavigationView bottomNavigationView;
+    ImageSlider imageSlider;
 
     //Firebase Database
     DatabaseReference table_comic;
+    DatabaseReference table_banner;
 
     //Listener
     IComicLoadDone comicListener;
@@ -69,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                loadBanner();
                 loadComic();
             }
         });
@@ -76,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
+                loadBanner();
                 loadComic();
             }
         });
@@ -94,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
                         //Dang o home
                         break;
                     case R.id.action_favorite:
-                        if(!Common.Login)
+                        if (!Common.Login)
                             ShowDialogLogin();
                         else
                             startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
@@ -103,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
                         startActivity(new Intent(MainActivity.this, CategoryActivity.class));
                         break;
                     case R.id.action_user:
-                        if(!Common.Login)
+                        if (!Common.Login)
                             startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         else
                             startActivity(new Intent(MainActivity.this, ProfileActivity.class));
@@ -117,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
     private void AnhXa() {
         //Init Database
         table_comic = FirebaseDatabase.getInstance().getReference("Comic");
+        table_banner = FirebaseDatabase.getInstance().getReference("Banners");
 
         //Init Listener
         comicListener = this;
@@ -126,15 +138,52 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
         recyclerView = findViewById(R.id.recycler_comic);
         txtComic = findViewById(R.id.txt_comic);
         bottomNavigationView = findViewById(R.id.menu_nav);
+        imageSlider = findViewById(R.id.image_slider);
+    }
+
+    private void loadBanner() {
+        table_banner.addListenerForSingleValueEvent(new ValueEventListener() {
+            List<SlideModel> imageBannerList = new ArrayList<>();
+            List<Banner> bannerList = new ArrayList<>();
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot bannerSnapshot : snapshot.getChildren()) {
+                    Banner banner = bannerSnapshot.getValue(Banner.class);
+                    String image = banner.getImage();
+                    imageBannerList.add(new SlideModel(image, ScaleTypes.CENTER_CROP));
+                    bannerList.add(banner);
+                }
+                imageSlider.setImageList(imageBannerList);
+                imageSlider.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onItemSelected(int i) {
+                        Banner banner = bannerList.get(i);
+                        for (Comic comic : Common.comicList) {
+                            if (comic.Id.equals(banner.getComic_id())) {
+                                Common.comicSelected = comic;
+                                Intent intent = new Intent(MainActivity.this, ChapterActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "ERROR" + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadComic() {
         table_comic.addListenerForSingleValueEvent(new ValueEventListener() {
             List<Comic> comic_load = new ArrayList<>();
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot comicSnapshot: snapshot.getChildren())
-                {
+                for (DataSnapshot comicSnapshot : snapshot.getChildren()) {
                     Comic comic = comicSnapshot.getValue(Comic.class);
                     comic_load.add(comic);
                 }
@@ -144,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(MainActivity.this, "ERROR" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -156,13 +205,13 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
         recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comicList));
 
         txtComic.setText(new StringBuilder("NEW COMIC (")
-        .append(comicList.size())
-        .append(")"));
+                .append(comicList.size())
+                .append(")"));
 
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    private void ShowDialogLogin(){
+    private void ShowDialogLogin() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
         alertDialog.setTitle("Thông báo!");
         alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");

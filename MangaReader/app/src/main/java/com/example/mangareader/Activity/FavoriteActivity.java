@@ -72,8 +72,6 @@ public class FavoriteActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
     }
 
     private void AnhXa() {
@@ -89,11 +87,8 @@ public class FavoriteActivity extends AppCompatActivity {
                     comic_favorite.add(c);
             }
         }
-        if(comic_favorite.size() > 0)
-            recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_favorite));
-        else {
-            recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_favorite));
+        recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_favorite));
+        if(comic_favorite.size() == 0)
             Toast.makeText(this, "Bạn chưa yêu thích truyện nào", Toast.LENGTH_SHORT).show();
-        }
     }
 }

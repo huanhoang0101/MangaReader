@@ -3,66 +3,68 @@ package com.example.mangareader.Model;
 import java.util.List;
 
 public class User {
-    private String UserName;
-    private String Password;
-    private String Name;
-    private String Email;
-    private String Favorites;
-    private String Like;
+    private String userName;
+    private String password;
+    private String name;
+    private String email;
+    private String favorites = "";
+    private String likes = "";
 
     public User() {
     }
 
-    public User(String password, String email) {
-        Password = password;
-        Email = email;
+    public User(String userName, String password, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.name = userName;
     }
 
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
+        this.userName = userName;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getFavorites() {
-        return Favorites;
+        return favorites;
     }
 
     public void setFavorites(String favorites) {
-        Favorites = favorites;
+        this.favorites = favorites;
     }
 
-    public String getLike() {
-        return Like;
+    public String getLikes() {
+        return likes;
     }
 
-    public void setLike(String like) {
-        Like = like;
+    public void setLikes(String like) {
+        this.likes = like;
     }
 }

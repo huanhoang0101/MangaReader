@@ -103,7 +103,7 @@ public class ChapterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (Common.Login) {
-                    if (Common.currentUser.getLike().contains(Common.comicSelected.Id)) {
+                    if (Common.currentUser.getLikes().contains(Common.comicSelected.Id)) {
                         RemoveLike();
                     } else {
                         AddLike();
@@ -121,7 +121,7 @@ public class ChapterActivity extends AppCompatActivity {
             btnFavorite.setText("Đã theo dõi");
         }
         //Like
-        if (Common.currentUser.getLike().contains(Common.comicSelected.Id)) {
+        if (Common.currentUser.getLikes().contains(Common.comicSelected.Id)) {
             btnLike.setText("Đã Like");
         }
     }
@@ -218,11 +218,11 @@ public class ChapterActivity extends AppCompatActivity {
 
     private void AddLike() {
         Map<String, Object> likes = new HashMap<>();
-        if (Common.currentUser.getLike().length() == 0)
-            newLike = Common.currentUser.getLike() + Common.comicSelected.Id;
+        if (Common.currentUser.getLikes().length() == 0)
+            newLike = Common.currentUser.getLikes() + Common.comicSelected.Id;
         else
-            newLike = Common.currentUser.getLike() + "," + Common.comicSelected.Id;
-        likes.put("like", newLike);
+            newLike = Common.currentUser.getLikes() + "," + Common.comicSelected.Id;
+        likes.put("likes", newLike);
 
         table_user.child(Common.currentUser.getUserName())
                 .updateChildren(likes)
@@ -230,7 +230,7 @@ public class ChapterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         btnLike.setText("Đã Like");
-                        Common.currentUser.setLike(newLike);
+                        Common.currentUser.setLikes(newLike);
                         Common.comicSelected.Like = Common.comicSelected.Like + 1;
                         UpdateLikeComic();
                         Toast.makeText(ChapterActivity.this, "Đã Like truyện này", Toast.LENGTH_SHORT).show();
@@ -245,7 +245,7 @@ public class ChapterActivity extends AppCompatActivity {
     }
 
     private void RemoveLike() {
-        String oldLike = Common.currentUser.getLike();
+        String oldLike = Common.currentUser.getLikes();
         String[] arr = oldLike.split(",");
         newLike = "";
         for (String s : arr) {
@@ -259,7 +259,7 @@ public class ChapterActivity extends AppCompatActivity {
             newLike = newLike.substring(1);
 
         Map<String, Object> likes = new HashMap<>();
-        likes.put("like", newLike);
+        likes.put("likes", newLike);
 
         table_user.child(Common.currentUser.getUserName())
                 .updateChildren(likes)
@@ -267,7 +267,7 @@ public class ChapterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         btnLike.setText("Like");
-                        Common.currentUser.setLike(newLike);
+                        Common.currentUser.setLikes(newLike);
                         Common.comicSelected.Like = Common.comicSelected.Like - 1;
                         UpdateLikeComic();
                         Toast.makeText(ChapterActivity.this, "Đã hủy Like", Toast.LENGTH_SHORT).show();

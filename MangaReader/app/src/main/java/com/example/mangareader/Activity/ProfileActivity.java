@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -143,6 +145,10 @@ public class ProfileActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("ĐỔI", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                if(edtNewName.getText().toString().isEmpty()){
+                    Toast.makeText(ProfileActivity.this, "Tên không hợp lệ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Map<String, Object> nameChange = new HashMap<>();
                 nameChange.put("name", edtNewName.getText().toString());
 
@@ -173,7 +179,7 @@ public class ProfileActivity extends AppCompatActivity {
         LayoutInflater inflater = this.getLayoutInflater();
         View emailChange_layout = inflater.inflate(R.layout.dialog_email_change, null);
 
-        MaterialEditText edtNewEmail = emailChange_layout.findViewById(R.id.edt_name_change);
+        MaterialEditText edtNewEmail = emailChange_layout.findViewById(R.id.edt_email_change);
 
         alertDialog.setView(emailChange_layout);
 
@@ -186,25 +192,33 @@ public class ProfileActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("ĐỔI", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Map<String, Object> EmailChange = new HashMap<>();
-                EmailChange.put("email", edtNewEmail.getText().toString());
+                if(edtNewEmail.getText().toString().isEmpty()){
+                    Toast.makeText(ProfileActivity.this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!(edtNewEmail.getText().toString().contains("@gmail.com"))) {
+                    Toast.makeText(ProfileActivity.this, "Sai định dạng Email", Toast.LENGTH_SHORT).show();
+                } else {
+                    Map<String, Object> EmailChange = new HashMap<>();
+                    EmailChange.put("email", edtNewEmail.getText().toString());
 
-                table_user.child(Common.currentUser.getUserName())
-                        .updateChildren(EmailChange)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(ProfileActivity.this, "Đổi Email thành công", Toast.LENGTH_SHORT).show();
-                                Common.currentUser.setEmail(edtNewEmail.getText().toString());
-                                txtEmail.setText(Common.currentUser.getEmail());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    table_user.child(Common.currentUser.getUserName())
+                            .updateChildren(EmailChange)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(ProfileActivity.this, "Đổi Email thành công", Toast.LENGTH_SHORT).show();
+                                    Common.currentUser.setEmail(edtNewEmail.getText().toString());
+                                    txtEmail.setText(Common.currentUser.getEmail());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
             }
         });
         alertDialog.show();
@@ -231,6 +245,10 @@ public class ProfileActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("Thay đổi", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                if(edtNewPass.getText().toString().isEmpty()){
+                    Toast.makeText(ProfileActivity.this, "Mật khẩu không hợp lệ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 //Change Pass
 
                 //Check old pass
@@ -248,6 +266,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(ProfileActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                                        Common.currentUser.setPassword(edtNewPass.getText().toString());
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -287,5 +306,18 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
         alertDialog.show();
+    }
+
+    private void ChangeLanguage(){
+        String languageToLoad  = "fr_FR";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        ProfileActivity.this.getResources().updateConfiguration(config,ProfileActivity.this.getResources().getDisplayMetrics());
+
+        Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

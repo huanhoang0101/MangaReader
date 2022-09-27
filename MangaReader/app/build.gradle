@@ -45,7 +45,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     //implementation 'com.github.d-max:spots-dialog:1.1@aar'
     //implementation 'com.ss.bannerslider:bannerslider:2.0.0'
-    //implementation 'com.wajahatkarim3.easyflipviewpager:easyflipviewpager:1.0.0'
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     implementation 'com.wajahatkarim:easyflipviewpager:2.0.1'
 
     //implementation 'com.github.alirezat775:carousel-view:{latest-version}'
