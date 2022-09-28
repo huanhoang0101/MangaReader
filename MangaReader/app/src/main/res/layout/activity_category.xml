@@ -20,10 +20,11 @@
             android:weightSum="5">
 
             <TextView
+                android:id="@+id/t123"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="THỂ LOẠI"
+                android:text="@string/Category"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 

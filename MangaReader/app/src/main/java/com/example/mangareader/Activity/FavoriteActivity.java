@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.mangareader.Adapter.MyComicAdapter;
 import com.example.mangareader.Common.Common;
+import com.example.mangareader.Interface.IMenu;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,7 +23,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteActivity extends AppCompatActivity {
+public class FavoriteActivity extends AppCompatActivity implements IMenu {
 
     RecyclerView recyclerView;
     BottomNavigationView bottomNavigationView;
@@ -49,26 +50,9 @@ public class FavoriteActivity extends AppCompatActivity {
 
         bottomNavigationView.setSelectedItemId(R.id.action_favorite);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        startActivity(new Intent(FavoriteActivity.this, MainActivity.class));
-                        break;
-                    case R.id.action_favorite:
-                        //Dang o favorite
-                        break;
-                    case R.id.action_category:
-                        startActivity(new Intent(FavoriteActivity.this, CategoryActivity.class));
-                        break;
-                    case R.id.action_user:
-                        if(!Common.Login)
-                            startActivity(new Intent(FavoriteActivity.this, LoginActivity.class));
-                        else
-                            startActivity(new Intent(FavoriteActivity.this, ProfileActivity.class));
-                        break;
-                }
+                setMenu(item);
                 return true;
             }
         });
@@ -90,5 +74,27 @@ public class FavoriteActivity extends AppCompatActivity {
         recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_favorite));
         if(comic_favorite.size() == 0)
             Toast.makeText(this, "Bạn chưa yêu thích truyện nào", Toast.LENGTH_SHORT).show();
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void setMenu(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                startActivity(new Intent(FavoriteActivity.this, MainActivity.class));
+                break;
+            case R.id.action_favorite:
+                //Dang o favorite
+                break;
+            case R.id.action_category:
+                startActivity(new Intent(FavoriteActivity.this, CategoryActivity.class));
+                break;
+            case R.id.action_user:
+                if(!Common.Login)
+                    startActivity(new Intent(FavoriteActivity.this, LoginActivity.class));
+                else
+                    startActivity(new Intent(FavoriteActivity.this, ProfileActivity.class));
+                break;
+        }
     }
 }

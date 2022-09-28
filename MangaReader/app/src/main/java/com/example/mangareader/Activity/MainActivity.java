@@ -27,6 +27,7 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.mangareader.Adapter.MyComicAdapter;
 import com.example.mangareader.Common.Common;
 import com.example.mangareader.Interface.IComicLoadDone;
+import com.example.mangareader.Interface.IMenu;
 import com.example.mangareader.Model.Banner;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
@@ -42,7 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements IComicLoadDone {
+public class MainActivity extends AppCompatActivity implements IComicLoadDone, IMenu {
 
     TextView txtComic;
     RecyclerView recyclerView;
@@ -97,29 +98,9 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
 
         bottomNavigationView.setSelectedItemId(R.id.action_home);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        //Dang o home
-                        break;
-                    case R.id.action_favorite:
-                        if (!Common.Login)
-                            ShowDialogLogin();
-                        else
-                            startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
-                        break;
-                    case R.id.action_category:
-                        startActivity(new Intent(MainActivity.this, CategoryActivity.class));
-                        break;
-                    case R.id.action_user:
-                        if (!Common.Login)
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        else
-                            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                        break;
-                }
+                setMenu(item);
                 return true;
             }
         });
@@ -229,5 +210,30 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone {
             }
         });
         alertDialog.show();
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void setMenu(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                //Dang o home
+                break;
+            case R.id.action_favorite:
+                if (!Common.Login)
+                    ShowDialogLogin();
+                else
+                    startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
+                break;
+            case R.id.action_category:
+                startActivity(new Intent(MainActivity.this, CategoryActivity.class));
+                break;
+            case R.id.action_user:
+                if (!Common.Login)
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                else
+                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                break;
+        }
     }
 }

@@ -8,20 +8,26 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.HorizontalScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mangareader.Adapter.MyComicAdapter;
 import com.example.mangareader.Common.Common;
+import com.example.mangareader.Interface.ILanguage;
+import com.example.mangareader.Interface.IMenu;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
+import com.example.mangareader.data_local.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -31,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity implements IMenu,ILanguage {
 
     Chip chipAll;
     ChipGroup chipGroup;
@@ -44,6 +50,8 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
 
         AnhXa();
+        if(!Common.language.isEmpty())
+            setLanguage(Common.language);
 
         chipAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,29 +68,9 @@ public class CategoryActivity extends AppCompatActivity {
 
         bottomNavigationView.setSelectedItemId(R.id.action_category);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        startActivity(new Intent(CategoryActivity.this, MainActivity.class));
-                        break;
-                    case R.id.action_favorite:
-                        if(!Common.Login)
-                            ShowDialogLogin();
-                        else
-                            startActivity(new Intent(CategoryActivity.this, FavoriteActivity.class));
-                        break;
-                    case R.id.action_category:
-                        //Dang o category
-                        break;
-                    case R.id.action_user:
-                        if(!Common.Login)
-                            startActivity(new Intent(CategoryActivity.this, LoginActivity.class));
-                        else
-                            startActivity(new Intent(CategoryActivity.this, ProfileActivity.class));
-                        break;
-                }
+                setMenu(item);
                 return true;
             }
         });
@@ -168,5 +156,39 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
         alertDialog.show();
+    }
+
+    @Override
+    public void setLanguage(String language) {
+        Context context = LocaleHelper.setLocale(CategoryActivity.this, language);
+        Resources resources = context.getResources();
+
+        TextView textView = findViewById(R.id.t123);
+        textView.setText(resources.getString(R.string.new_comic));
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void setMenu(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                startActivity(new Intent(CategoryActivity.this, MainActivity.class));
+                break;
+            case R.id.action_favorite:
+                if(!Common.Login)
+                    ShowDialogLogin();
+                else
+                    startActivity(new Intent(CategoryActivity.this, FavoriteActivity.class));
+                break;
+            case R.id.action_category:
+                //Dang o category
+                break;
+            case R.id.action_user:
+                if(!Common.Login)
+                    startActivity(new Intent(CategoryActivity.this, LoginActivity.class));
+                else
+                    startActivity(new Intent(CategoryActivity.this, ProfileActivity.class));
+                break;
+        }
     }
 }

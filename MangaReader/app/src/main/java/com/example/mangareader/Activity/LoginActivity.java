@@ -49,38 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                table_user.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        //Kiểm tra tài khoản
-                        if(snapshot.child(edtUserName.getText().toString()).exists()) {
-                            //Kiểm tra mật khẩu
-                            User user = snapshot.child(edtUserName.getText().toString()).getValue(User.class);
-                            user.setUserName(edtUserName.getText().toString());
-                            if (user.getPassword().equals(edtPass.getText().toString()))
-                            {
-                                Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                Common.Login = true;
-                                Common.currentUser = user;
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-                                table_user.removeEventListener(this);
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Mật khẩu không đúng", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else
-                        {
-                            Toast.makeText(LoginActivity.this, "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(LoginActivity.this, "ERROR" + error.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
+                ActiveLogin();
             }
         });
 
@@ -101,5 +70,40 @@ public class LoginActivity extends AppCompatActivity {
 
         //Init Database
         table_user = FirebaseDatabase.getInstance().getReference("User");
+    }
+
+    private void ActiveLogin(){
+        table_user.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                //Kiểm tra tài khoản
+                if(snapshot.child(edtUserName.getText().toString()).exists()) {
+                    //Kiểm tra mật khẩu
+                    User user = snapshot.child(edtUserName.getText().toString()).getValue(User.class);
+                    user.setUserName(edtUserName.getText().toString());
+                    if (user.getPassword().equals(edtPass.getText().toString()))
+                    {
+                        Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                        Common.Login = true;
+                        Common.currentUser = user;
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                        table_user.removeEventListener(this);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(LoginActivity.this, "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(LoginActivity.this, "ERROR" + error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

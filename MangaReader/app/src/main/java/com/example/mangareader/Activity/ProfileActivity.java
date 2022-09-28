@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mangareader.Common.Common;
+import com.example.mangareader.Interface.IMenu;
 import com.example.mangareader.R;
+import com.example.mangareader.data_local.LocaleHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -32,13 +35,18 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements IMenu {
 
-    TextView txtName, txtUserName, txtPass, txtEmail, txtLogout;
+    TextView txtName, txtUserName, txtPass, txtEmail, txtChangeLanguage, txtLogout;
     BottomNavigationView bottomNavigationView;
 
     //Firebase Database
     DatabaseReference table_user;
+
+    boolean lang_selected = true;
+    Context context;
+    Resources resources;
+    TextView txtTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,26 +58,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         bottomNavigationView.setSelectedItemId(R.id.action_user);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        startActivity(new Intent(ProfileActivity.this, MainActivity.class));
-                        break;
-                    case R.id.action_favorite:
-                        if(!Common.Login)
-                            ShowDialogLogin();
-                        else
-                            startActivity(new Intent(ProfileActivity.this, FavoriteActivity.class));
-                        break;
-                    case R.id.action_category:
-                        startActivity(new Intent(ProfileActivity.this, CategoryActivity.class));
-                        break;
-                    case R.id.action_user:
-                        //Dang o user
-                        break;
-                }
+                setMenu(item);
                 return true;
             }
         });
@@ -106,6 +97,54 @@ public class ProfileActivity extends AppCompatActivity {
                 Common.currentUser = null;
             }
         });
+
+        txtChangeLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] language = {"English", "VN"};
+
+                int checkedItem;
+
+                if(lang_selected){
+                    checkedItem = 0;
+                }else {
+                    checkedItem = 1;
+                }
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
+
+                alertDialog.setTitle("Select Language")
+                        .setSingleChoiceItems(language, checkedItem, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                txtChangeLanguage.setText(language[i]);
+                                if(language[i].equals("English"))
+                                {
+                                    context = LocaleHelper.setLocale(ProfileActivity.this, "en");
+                                    resources = context.getResources();
+
+                                    txtTest.setText(resources.getString(R.string.new_comic));
+                                    Common.language = "en";
+                                }
+                                if(language[i].equals("VN"))
+                                {
+                                    context = LocaleHelper.setLocale(ProfileActivity.this, "vi");
+                                    resources = context.getResources();
+
+                                    txtTest.setText(resources.getString(R.string.new_comic));
+                                    Common.language = "vi";
+                                }
+                            }
+                        })
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                alertDialog.create().show();
+            }
+        });
     }
 
     private void ShowInfo() {
@@ -122,8 +161,10 @@ public class ProfileActivity extends AppCompatActivity {
         txtUserName = findViewById(R.id.txt_username_profile);
         txtPass = findViewById(R.id.txt_pass_profile);
         txtEmail = findViewById(R.id.txt_email_profile);
+        txtChangeLanguage = findViewById(R.id.txt_change_language);
         txtLogout = findViewById(R.id.txt_logout_profile);
         bottomNavigationView = findViewById(R.id.menu_nav);
+        txtTest = findViewById(R.id.txtTest);
     }
 
     private void ShowNameChangeDialog() {
@@ -319,5 +360,27 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void setMenu(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                break;
+            case R.id.action_favorite:
+                if(!Common.Login)
+                    ShowDialogLogin();
+                else
+                    startActivity(new Intent(ProfileActivity.this, FavoriteActivity.class));
+                break;
+            case R.id.action_category:
+                startActivity(new Intent(ProfileActivity.this, CategoryActivity.class));
+                break;
+            case R.id.action_user:
+                //Dang o user
+                break;
+        }
     }
 }
