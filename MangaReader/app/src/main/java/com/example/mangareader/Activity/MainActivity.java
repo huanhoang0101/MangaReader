@@ -5,14 +5,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,12 +31,14 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.mangareader.Adapter.MyComicAdapter;
 import com.example.mangareader.Common.Common;
 import com.example.mangareader.Interface.IComicLoadDone;
+import com.example.mangareader.Interface.ILanguage;
 import com.example.mangareader.Interface.IMenu;
 import com.example.mangareader.Model.Banner;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
+import com.example.mangareader.TouchDetectableScrollView;
+import com.example.mangareader.data_local.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,7 +49,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements IComicLoadDone, IMenu {
+import io.paperdb.Paper;
+
+public class MainActivity extends AppCompatActivity implements IComicLoadDone, IMenu, ILanguage {
 
     TextView txtComic;
     RecyclerView recyclerView;
@@ -51,6 +59,13 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
     ImageView btnFilterSearch;
     BottomNavigationView bottomNavigationView;
     ImageSlider imageSlider;
+    TouchDetectableScrollView touchDetectableScrollView;
+
+    private boolean isLoading;
+    private boolean isLastPage;
+    private int totalPage;
+    private int currentPage = 1;
+    private List<Comic> comicList;
 
     //Firebase Database
     DatabaseReference table_comic;
@@ -60,11 +75,31 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
     IComicLoadDone comicListener;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase, "vi-rVN"));
+    }
+
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        updateView(Paper.book().read("language"));
+//    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         AnhXa();
+
+        Paper.init(this);
+
+        //Set default language VN
+        String language = Paper.book().read("language");
+        if(language == null)
+            Paper.book().write("language", "vi-rVN");
+
+        updateView(Paper.book().read("language"));
 
         btnFilterSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,15 +110,15 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorPrimaryDark);
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                currentPage = 1;
+                isLastPage = false;
                 loadBanner();
                 loadComic();
             }
         });
-
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -117,9 +152,18 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
         btnFilterSearch = findViewById(R.id.btn_search);
         swipeRefreshLayout = findViewById(R.id.refresh);
         recyclerView = findViewById(R.id.recycler_comic);
-        txtComic = findViewById(R.id.txt_comic);
+        txtComic = findViewById(R.id.txt_new_comic);
         bottomNavigationView = findViewById(R.id.menu_nav);
         imageSlider = findViewById(R.id.image_slider);
+        touchDetectableScrollView = findViewById(R.id.touchDetectableScrollView);
+    }
+
+    @Override
+    public void updateView(String language) {
+        Context context = LocaleHelper.setLocale(this,language);
+        Resources resources =  context.getResources();
+
+        //txtComic.setText(resources.getString(R.string.new_comic));
     }
 
     private void loadBanner() {
@@ -168,8 +212,8 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
                     Comic comic = comicSnapshot.getValue(Comic.class);
                     comic_load.add(comic);
                 }
-
-                comicListener.onComicLoadDoneListener(comic_load);
+                Common.comicList = comic_load;
+                comicListener.onComicLoadDoneListener();
             }
 
             @Override
@@ -180,15 +224,32 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
     }
 
     @Override
-    public void onComicLoadDoneListener(List<Comic> comicList) {
-        Common.comicList = comicList;
+    public void onComicLoadDoneListener() {
+        totalPage = ((Common.comicList.size() - 1) / 5) + 1;
+        comicList = new ArrayList<>();
+        comicList = getListComic();
+        MyComicAdapter adapter = new MyComicAdapter(getBaseContext(), comicList);
+        recyclerView.setAdapter(adapter);
 
-        recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comicList));
+        if(currentPage < totalPage) {
+            adapter.addFooterLoading();
+        } else {
+            isLastPage = true;
+        }
 
-        txtComic.setText(new StringBuilder("NEW COMIC (")
-                .append(comicList.size())
-                .append(")"));
+        touchDetectableScrollView.setMyScrollChangeListener(new TouchDetectableScrollView.OnMyScrollChangeListener() {
+            @Override
+            public void onBottomReached() {
+                if(isLoading || isLastPage){
+                    return;
+                }
+                isLoading = true;
+                currentPage += 1;
 
+                loadNextPage(adapter);
+            }
+        });
+        setCountNewComic();
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -234,6 +295,62 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
                 else
                     startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 break;
+        }
+    }
+
+    private List<Comic> getListComic() {
+        List<Comic> list = new ArrayList<>();
+
+        if(currentPage < totalPage) {
+            for (int i = 0; i < 5; i++) {
+                int position = (currentPage - 1) * 5;
+                list.add(Common.comicList.get(position + i));
+            }
+        }
+        else {
+            for (int position = (currentPage - 1) * 5; position < (Common.comicList.size()); position++){
+                list.add(Common.comicList.get(position));
+            }
+        }
+        Toast.makeText(MainActivity.this, "getlist",Toast.LENGTH_SHORT).show();
+        return list;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadNextPage(MyComicAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<Comic> list = getListComic();
+                adapter.removeFooterLoading();
+                comicList.addAll(list);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(MainActivity.this, "Loadnext",Toast.LENGTH_SHORT).show();
+
+                isLoading = false;
+                if(currentPage < totalPage) {
+                    adapter.addFooterLoading();
+                } else {
+                    isLastPage = true;
+                }
+                setCountNewComic();
+            }
+        }, 200);
+    }
+
+    private void setCountNewComic(){
+        Context context = LocaleHelper.setLocale(this,Paper.book().read("language"));
+        Resources resources =  context.getResources();
+        if(isLastPage){
+            txtComic.setText(new StringBuilder(resources.getString(R.string.new_comic))
+                    .append(" (")
+                    .append(comicList.size())
+                    .append(")"));
+        } else {
+            txtComic.setText(new StringBuilder(resources.getString(R.string.new_comic))
+                    .append(" (")
+                    .append(comicList.size() - 1)
+                    .append(")"));
         }
     }
 }

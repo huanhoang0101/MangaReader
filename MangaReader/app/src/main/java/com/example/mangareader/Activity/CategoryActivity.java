@@ -50,8 +50,6 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
         setContentView(R.layout.activity_category);
 
         AnhXa();
-        if(!Common.language.isEmpty())
-            setLanguage(Common.language);
 
         chipAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,15 +156,6 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
         alertDialog.show();
     }
 
-    @Override
-    public void setLanguage(String language) {
-        Context context = LocaleHelper.setLocale(CategoryActivity.this, language);
-        Resources resources = context.getResources();
-
-        TextView textView = findViewById(R.id.t123);
-        textView.setText(resources.getString(R.string.new_comic));
-    }
-
     @SuppressLint("NonConstantResourceId")
     @Override
     public void setMenu(MenuItem item) {
@@ -190,5 +179,13 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
                     startActivity(new Intent(CategoryActivity.this, ProfileActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void updateView(String language) {
+        Context context = LocaleHelper.setLocale(this,language);
+        Resources resources =  context.getResources();
+
+//        txtComic.setText(resources.getString(R.string.new_comic));
     }
 }

@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/menu_nav">
 
-        <androidx.core.widget.NestedScrollView
+        <com.example.mangareader.TouchDetectableScrollView
+            android:id="@+id/touchDetectableScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -58,12 +59,12 @@
                     android:weightSum="4">
 
                     <TextView
-                        android:id="@+id/txt_comic"
+                        android:id="@+id/txt_new_comic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/columnColor"
                         android:padding="4dp"
-                        android:text="NEW COMIC (0)"
+                        android:text="@string/new_comic"
                         android:textColor="@color/textColor"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -76,7 +77,7 @@
                     android:padding="8dp" />
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+        </com.example.mangareader.TouchDetectableScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
