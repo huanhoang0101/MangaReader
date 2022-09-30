@@ -1,8 +1,12 @@
 package com.example.mangareader.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,10 +21,13 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +47,7 @@ import com.example.mangareader.TouchDetectableScrollView;
 import com.example.mangareader.data_local.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,15 +59,17 @@ import java.util.List;
 
 import io.paperdb.Paper;
 
-public class MainActivity extends AppCompatActivity implements IComicLoadDone, IMenu, ILanguage {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IComicLoadDone, IMenu, ILanguage {
 
     TextView txtComic;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
-    ImageView btnFilterSearch;
     BottomNavigationView bottomNavigationView;
     ImageSlider imageSlider;
     TouchDetectableScrollView touchDetectableScrollView;
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
+    NavigationView navigationView;
 
     private boolean isLoading;
     private boolean isLastPage;
@@ -101,12 +111,13 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
 
         updateView(Paper.book().read("language"));
 
-        btnFilterSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, FilterSearchActivity.class));
-            }
-        });
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorPrimaryDark);
@@ -149,13 +160,15 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
         //Init Listener
         comicListener = this;
 
-        btnFilterSearch = findViewById(R.id.btn_search);
         swipeRefreshLayout = findViewById(R.id.refresh);
         recyclerView = findViewById(R.id.recycler_comic);
         txtComic = findViewById(R.id.txt_new_comic);
         bottomNavigationView = findViewById(R.id.menu_nav);
         imageSlider = findViewById(R.id.image_slider);
         touchDetectableScrollView = findViewById(R.id.touchDetectableScrollView);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.navigation_view);
     }
 
     @Override
@@ -163,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
         Context context = LocaleHelper.setLocale(this,language);
         Resources resources =  context.getResources();
 
-        //txtComic.setText(resources.getString(R.string.new_comic));
+        txtComic.setText(resources.getString(R.string.new_comic));
     }
 
     private void loadBanner() {
@@ -312,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
                 list.add(Common.comicList.get(position));
             }
         }
-        Toast.makeText(MainActivity.this, "getlist",Toast.LENGTH_SHORT).show();
         return list;
     }
 
@@ -325,7 +337,6 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
                 adapter.removeFooterLoading();
                 comicList.addAll(list);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(MainActivity.this, "Loadnext",Toast.LENGTH_SHORT).show();
 
                 isLoading = false;
                 if(currentPage < totalPage) {
@@ -352,5 +363,74 @@ public class MainActivity extends AppCompatActivity implements IComicLoadDone, I
                     .append(comicList.size() - 1)
                     .append(")"));
         }
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                startActivity(new Intent(MainActivity.this, FilterSearchActivity.class));
+                break;
+            case R.id.action_ranking:
+                startActivity(new Intent(MainActivity.this, RankingActivity.class));
+                break;
+            case R.id.action_change_language:
+                ChangeLanguage();
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void ChangeLanguage() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View languageChange_layout = inflater.inflate(R.layout.dialog_language_change, null);
+
+        RadioButton rdVN = languageChange_layout.findViewById(R.id.rdb_VN);
+        RadioButton rdEN = languageChange_layout.findViewById(R.id.rdb_EN);
+        RadioButton rdJP = languageChange_layout.findViewById(R.id.rdb_JP);
+
+        String currentLanguage = (String) Paper.book().read("language");
+
+        if(currentLanguage.equals("vi"))
+            rdVN.setChecked(true);
+        if(currentLanguage.equals("en"))
+            rdEN.setChecked(true);
+        if(currentLanguage.equals("ja"))
+            rdJP.setChecked(true);
+
+        alertDialog.setView(languageChange_layout);
+
+        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //setLanguageChecked(radioGroup);
+                if(rdVN.isChecked()){
+                    Paper.book().write("language", "vi");
+                    updateView(Paper.book().read("language"));
+                    setCountNewComic();
+                }
+                if(rdEN.isChecked()) {
+                    Paper.book().write("language", "en");
+                    updateView(Paper.book().read("language"));
+                    setCountNewComic();
+                }
+                if(rdJP.isChecked()) {
+                    Paper.book().write("language", "ja");
+                    updateView(Paper.book().read("language"));
+                    setCountNewComic();
+                }
+            }
+        });
+        alertDialog.show();
     }
 }

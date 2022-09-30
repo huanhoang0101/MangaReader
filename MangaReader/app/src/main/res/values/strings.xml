@@ -4,4 +4,8 @@
     <string name="slogan_signup">Nhấn nút đăng ký đồng nghĩa với bạn đã đồng ý với các điều khoản của chúng tôi.</string>
     <string name="new_comic">TRUYỆN MỚI</string>
     <string name="Category" translatable="false">THỂ LOẠI</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

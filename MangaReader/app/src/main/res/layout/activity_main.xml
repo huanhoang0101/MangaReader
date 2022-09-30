@@ -1,92 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.MainActivity">
+    tools:context=".Activity.MainActivity"
+    tools:openDrawer="start">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/menu_nav">
+        android:layout_height="match_parent">
 
-        <com.example.mangareader.TouchDetectableScrollView
-            android:id="@+id/touchDetectableScrollView"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/menu_nav">
 
-            <LinearLayout
+            <com.example.mangareader.TouchDetectableScrollView
+                android:id="@+id/touchDetectableScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/columnColor"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:weightSum="10">
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="8"
-                        android:src="@drawable/mainlogo_2" />
-
-                    <ImageView
-                        android:id="@+id/btn_search"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="2"
-                        android:src="@drawable/ic_search_24" />
-                </LinearLayout>
-
-                <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/image_slider"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    app:iss_auto_cycle="true"
-                    app:iss_period="2000" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="4">
-
-                    <TextView
-                        android:id="@+id/txt_new_comic"
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/columnColor"
-                        android:padding="4dp"
-                        android:text="@string/new_comic"
-                        android:textColor="@color/textColor"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:src="@drawable/mainlogo_2" />
+                    </androidx.appcompat.widget.Toolbar>
+
+                    <com.denzcoskun.imageslider.ImageSlider
+                        android:id="@+id/image_slider"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        app:iss_auto_cycle="true"
+                        app:iss_period="2000" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <TextView
+                            android:id="@+id/txt_new_comic"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/columnColor"
+                            android:padding="4dp"
+                            android:text="@string/new_comic"
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_comic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp" />
+
                 </LinearLayout>
+            </com.example.mangareader.TouchDetectableScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_comic"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp" />
 
-            </LinearLayout>
-        </com.example.mangareader.TouchDetectableScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/menu_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/columnColor"
+            app:itemIconTint="@color/item_menu"
+            app:itemTextColor="@color/item_menu"
+            app:menu="@menu/main_menu" />
+    </RelativeLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/menu_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/columnColor"
-        app:itemIconTint="@color/item_menu"
-        app:itemTextColor="@color/item_menu"
-        app:menu="@menu/main_menu" />
-</RelativeLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/item_layout_header_nav"
+        app:menu="@menu/nav_menu" />
+</androidx.drawerlayout.widget.DrawerLayout>

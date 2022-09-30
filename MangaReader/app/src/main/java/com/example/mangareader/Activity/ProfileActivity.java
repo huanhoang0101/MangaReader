@@ -103,12 +103,12 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
             }
         });
 
-        txtChangeLanguage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ChangeLanguage();
-            }
-        });
+//        txtChangeLanguage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ChangeLanguage();
+//            }
+//        });
     }
 
     private void ShowInfo() {
@@ -310,120 +310,79 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
         alertDialog.show();
     }
 
-    private void ChangeLanguage() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        View languageChange_layout = inflater.inflate(R.layout.dialog_language_change, null);
-
-        RadioButton rdVN = languageChange_layout.findViewById(R.id.rdb_VN);
-        RadioButton rdEN = languageChange_layout.findViewById(R.id.rdb_EN);
-        RadioButton rdJP = languageChange_layout.findViewById(R.id.rdb_JP);
-
-        String currentLanguage = (String) Paper.book().read("language");
-
-        if(currentLanguage.equals("vi"))
-            rdVN.setChecked(true);
-        if(currentLanguage.equals("en"))
-            rdEN.setChecked(true);
-        if(currentLanguage.equals("ja"))
-            rdJP.setChecked(true);
-
-        alertDialog.setView(languageChange_layout);
-
-        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        alertDialog.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //setLanguageChecked(radioGroup);
-                if(rdVN.isChecked()){
-                    Paper.book().write("language", "vi");
-                    updateView((String) Paper.book().read("language"));
-                }
-                if(rdEN.isChecked()) {
-                    Paper.book().write("language", "en");
-                    updateView((String) Paper.book().read("language"));
-                }
-                if(rdJP.isChecked()) {
-                    Paper.book().write("language", "ja");
-                    updateView((String) Paper.book().read("language"));
-                }
-            }
-        });
-        alertDialog.show();
-    }
-    //        int checkedItem;
-//        String[] language = {"English", "Tiếng Việt"};
-//
-//        if(lang_selected){
-//            checkedItem = 0;
-//        }else {
-//            checkedItem = 1;
-//        }
-//
+//    private void ChangeLanguage() {
 //        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
 //
-//        alertDialog.setTitle("Select Language")
-//                .setSingleChoiceItems(language, checkedItem, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        txtChangeLanguage.setText(language[i]);
-//                        if(language[i].equals("English"))
-//                        {
-//                            context = LocaleHelper.setLocale(ProfileActivity.this, "en");
-//                            resources = context.getResources();
+//        LayoutInflater inflater = this.getLayoutInflater();
+//        View languageChange_layout = inflater.inflate(R.layout.dialog_language_change, null);
 //
-//                            txtTest.setText(resources.getString(R.string.new_comic));
-//                            Common.language = "en";
-//                        }
-//                        if(language[i].equals("VN"))
-//                        {
-//                            context = LocaleHelper.setLocale(ProfileActivity.this, "vi");
-//                            resources = context.getResources();
+//        RadioButton rdVN = languageChange_layout.findViewById(R.id.rdb_VN);
+//        RadioButton rdEN = languageChange_layout.findViewById(R.id.rdb_EN);
+//        RadioButton rdJP = languageChange_layout.findViewById(R.id.rdb_JP);
 //
-//                            txtTest.setText(resources.getString(R.string.new_comic));
-//                            Common.language = "vi";
-//                        }
-//                    }
-//                })
-//                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.dismiss();
-//                    }
-//                });
-//        alertDialog.create().show();
+//        String currentLanguage = (String) Paper.book().read("language");
+//
+//        if(currentLanguage.equals("vi"))
+//            rdVN.setChecked(true);
+//        if(currentLanguage.equals("en"))
+//            rdEN.setChecked(true);
+//        if(currentLanguage.equals("ja"))
+//            rdJP.setChecked(true);
+//
+//        alertDialog.setView(languageChange_layout);
+//
+//        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.dismiss();
+//            }
+//        });
+//        alertDialog.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                //setLanguageChecked(radioGroup);
+//                if(rdVN.isChecked()){
+//                    Paper.book().write("language", "vi");
+//                    updateView((String) Paper.book().read("language"));
+//                }
+//                if(rdEN.isChecked()) {
+//                    Paper.book().write("language", "en");
+//                    updateView((String) Paper.book().read("language"));
+//                }
+//                if(rdJP.isChecked()) {
+//                    Paper.book().write("language", "ja");
+//                    updateView((String) Paper.book().read("language"));
+//                }
+//            }
+//        });
+//        alertDialog.show();
+//    }
 
-    private void setLanguageChecked(RadioGroup radioGroup) {
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i) {
-                    case R.id.rdb_VN:
-                        Paper.book().write("language", "vi");
-                        updateView((String) Paper.book().read("language"));
-                        Toast.makeText(ProfileActivity.this, (String) Paper.book().read("language") + "1", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.rdb_EN:
-                        Paper.book().write("language", "en");
-                        updateView((String) Paper.book().read("language"));
-                        Toast.makeText(ProfileActivity.this, (String) Paper.book().read("language")+ "1", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.rdb_JP:
-                        Paper.book().write("language", "ja-rJP");
-                        updateView((String) Paper.book().read("language"));
-                        Toast.makeText(ProfileActivity.this, (String) Paper.book().read("language"), Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        });
-    }
+//    private void setLanguageChecked(RadioGroup radioGroup) {
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @SuppressLint("NonConstantResourceId")
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//                switch (i) {
+//                    case R.id.rdb_VN:
+//                        Paper.book().write("language", "vi");
+//                        updateView((String) Paper.book().read("language"));
+//                        Toast.makeText(ProfileActivity.this, (String) Paper.book().read("language") + "1", Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.rdb_EN:
+//                        Paper.book().write("language", "en");
+//                        updateView((String) Paper.book().read("language"));
+//                        Toast.makeText(ProfileActivity.this, (String) Paper.book().read("language")+ "1", Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.rdb_JP:
+//                        Paper.book().write("language", "ja-rJP");
+//                        updateView((String) Paper.book().read("language"));
+//                        Toast.makeText(ProfileActivity.this, (String) Paper.book().read("language"), Toast.LENGTH_SHORT).show();
+//                        break;
+//                }
+//            }
+//        });
+//    }
 
     @SuppressLint("NonConstantResourceId")
     @Override

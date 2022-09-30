@@ -13,13 +13,14 @@
         android:layout_height="wrap_content"
         android:background="@color/columnColor"
         android:minHeight="?attr/actionBarSize">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="TÌM KIẾM"
             android:textColor="@color/textColor"
-            android:textSize="28sp"
-            android:layout_gravity="center"/>
+            android:textSize="28sp" />
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
