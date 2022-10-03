@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/columnColor"
-            android:text="Lọc theo thể loại"
+            android:text="@string/filter_by_category"
             android:textSize="24sp"
             android:padding="12dp"
             android:gravity="center"
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Nhập thể loại..." />
+            android:hint="@string/input_category_hint" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group"

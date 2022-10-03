@@ -37,12 +37,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import io.paperdb.Paper;
+
 public class CategoryActivity extends AppCompatActivity implements IMenu,ILanguage {
 
     Chip chipAll;
     ChipGroup chipGroup;
     RecyclerView recyclerView;
     BottomNavigationView bottomNavigationView;
+    TextView txtCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
         setContentView(R.layout.activity_category);
 
         AnhXa();
+
+        updateView(Paper.book().read("language"));
 
         chipAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +109,7 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
         chipGroup = findViewById(R.id.chip_group_category);
         recyclerView = findViewById(R.id.recycler_category);
         bottomNavigationView = findViewById(R.id.bottom_nav);
+        txtCategory = findViewById(R.id.category_title);
     }
 
     private void fetchCategory(Chip chip) {
@@ -120,7 +126,7 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
         else {
             comic_category.clear();
             recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_category));
-            Toast.makeText(this, "Chưa có truyện thuộc thể loại này", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_comic), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -138,16 +144,16 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
 
     private void ShowDialogLogin(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(CategoryActivity.this);
-        alertDialog.setTitle("Thông báo!");
-        alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+        alertDialog.setTitle(getString(R.string.notice));
+        alertDialog.setMessage(getString(R.string.please_login));
 
-        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getString(R.string.login), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 startActivity(new Intent(CategoryActivity.this, LoginActivity.class));
@@ -186,6 +192,7 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
         Context context = LocaleHelper.setLocale(this,language);
         Resources resources =  context.getResources();
 
-//        txtComic.setText(resources.getString(R.string.new_comic));
+        txtCategory.setText(resources.getString(R.string.CATEGORY));
+        chipAll.setText(resources.getString(R.string.chip_all));
     }
 }

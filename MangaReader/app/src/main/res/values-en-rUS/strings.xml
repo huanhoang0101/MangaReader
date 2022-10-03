@@ -1,4 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">MangaReader</string>
+    <string name="slogan">Please login to your account to continue using the service.</string>
+    <string name="slogan_signup">By clicking the Signup button, you agree to our terms.</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- activity_main -->
     <string name="new_comic">NEW COMIC</string>
+    <!-- activity_category -->
+    <string name="CATEGORY">CATEGORY</string>
+    <string name="chip_all">All</string>
+    <!-- activity_chapter -->
+    <string name="count_favorite">Follow:</string>
+    <string name="count_like">Like:</string>
+    <string name="category">Category:</string>
+    <string name="favorite_btn">Follow</string>
+    <string name="like_btn">Like</string>
+    <!-- activity_favorite -->
+    <string name="FAVORITE">FAVORITE</string>
+    <!-- activity_filter_search -->
+    <string name="search_tiltle_toolbar">SEARCH</string>
+    <string name="ALL_COMIC">ALL COMIC</string>
+    <!-- activity_login -->
+    <string name="input_username_hint">Input username</string>
+    <string name="input_password_hint">Input password</string>
+    <string name="login_btn">Login</string>
+    <string name="signup_new_account">Signup new account</string>
+    <!-- activity_profile -->
+    <string name="logout">Logout</string>
+    <!-- activity_ranking -->
+    <string name="ranking_title_toolbar">RANKING</string>
+    <!-- activity_signup -->
+    <string name="input_passwordconf_hint">Confirm password</string>
+    <string name="input_email_hint">Email</string>
+    <string name="signup_btn">Signup</string>
+    <!-- dialog_email_change -->
+    <string name="email_change">Change email</string>
+    <string name="input_new_email_hint">Input new email</string>
+    <!-- dialog_language_change -->
+    <string name="language_change">Change language</string>
+    <string name="vietnamese">Vietnamese</string>
+    <string name="english">English</string>
+    <string name="japanese">Japanese</string>
+    <!-- dialog_name_change -->
+    <string name="name_change">Change name</string>
+    <string name="input_new_name_hint">Input new name</string>
+    <!-- dialog_options -->
+    <string name="filter_by_category">Filter by category</string>
+    <string name="input_category_hint">Input category…</string>
+    <!-- dialog_pass_change -->
+    <string name="password_change">Change password</string>
+    <string name="input_current_password">Input current password</string>
+    <string name="input_new_password_hint">Input new password</string>
+    <string name="input_new_passwordconf_hint">Confirm new password</string>
+    <!-- dialog_search -->
+    <string name="filter_by_name">Search by name</string>
+    <string name="input_name_hint">Input name…</string>
+    <!-- menu_filter_search -->
+    <string name="action_filter">Filter by category</string>
+    <string name="action_search_by_name">Search by name</string>
+    <!-- menu_main -->
+    <string name="action_home">Home</string>
+    <string name="action_favorite">Follow</string>
+    <string name="action_category">Category</string>
+    <string name="action_user">Account</string>
+    <!-- menu_nav -->
+    <string name="action_search">Search</string>
+    <string name="action_ranking">Ranking</string>
+    <string name="action_change_language">Change language</string>
+    <!-- main_activity -->
+    <string name="please_wait_dialog">Please wait…</string>
+    <!-- category_activity -->
+    <string name="no_comic">There are no comic in this category yet</string>
+    <!-- chapter_activity -->
+    <string name="followed">Followed</string>
+    <string name="follow">Follow</string>
+    <string name="liked">Liked</string>
+    <string name="like">Like</string>
+    <string name="follow_toast">Added to follow list</string>
+    <string name="unfollow_toast">Removed from follow list</string>
+    <string name="like_toast">Liked this comic</string>
+    <string name="dislike_toast">Dislike this comic</string>
+    <!-- favorite_activity -->
+    <string name="no_comic_follow">You haven\'t liked any comic</string>
+    <!-- filter_search_activity -->
+    <string name="search">Search</string>
+    <string name="no_results">No results</string>
+    <string name="filter">Filter</string>
+    <!-- login_activity -->
+    <string name="login_success">Login success</string>
+    <string name="password_wrong">Wrong password</string>
+    <string name="username_wrong">Account does not exist</string>
+    <!-- profile_activity -->
+    <string name="invalid_username">Invalid Username</string>
+    <string name="name_change_success">Change name success</string>
+    <string name="change">CHANGE</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="wrong_format_email">Email format wrong</string>
+    <string name="email_change_success">Change email success</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="password_change_success">Change password success</string>
+    <string name="wrong_passwordconf">Wrong password confirm</string>
+    <string name="wrong_password_current">Wrong current password</string>
+    <!-- ranking_activity -->
+    <string name="ranking_by_like">Ranking by Like</string>
+    <string name="ranking_by_follow">Ranking by Follow</string>
+    <!-- sign_up_activity -->
+    <string name="username_exists">Account already exists</string>
+    <string name="sign_up_success">Sign up success</string>
+    <string name="username_not_fill">Username is not filled</string>
+    <string name="password_not_fill">Password is not filled</string>
+    <!-- view_comic_activity -->
+    <string name="reading_first_chapter">Reading first chapter</string>
+    <string name="reading_last_chapter">Reading last chapter</string>
+    <string name="no_image">No image</string>
+    <string name="loading_chapter">Loading this chapter…</string>
+    <!-- dialog_please_login -->
+    <string name="please_login">Please login to use this activity</string>
+    <string name="notice">Notice!</string>
+    <string name="cancel">CANCEL</string>
+    <string name="login">Login</string>
+    <string name="confirm">Confirm</string>
+    <string name="restart">The application will restart to apply this change</string>
 </resources>

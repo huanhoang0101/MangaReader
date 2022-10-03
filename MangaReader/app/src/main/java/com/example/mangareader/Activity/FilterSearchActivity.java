@@ -4,13 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,8 +33,11 @@ import android.widget.Toast;
 
 import com.example.mangareader.Adapter.MyComicAdapter;
 import com.example.mangareader.Common.Common;
+import com.example.mangareader.Interface.ILanguage;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
+import com.example.mangareader.data_local.LocaleHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -41,11 +47,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FilterSearchActivity extends AppCompatActivity {
+import io.paperdb.Paper;
+
+public class FilterSearchActivity extends AppCompatActivity implements ILanguage {
 
     BottomNavigationView bottomNavigationView;
     RecyclerView recyclerView;
     Toolbar toolbar;
+    TextView txtSearchToolbar, txtAllComicTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +62,8 @@ public class FilterSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filter_search);
 
         AnhXa();
+
+        updateView(Paper.book().read("language"));
 
         //Set icon
         toolbar.setNavigationIcon(R.drawable.ic_left_24);
@@ -88,6 +99,8 @@ public class FilterSearchActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_filter_search);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         toolbar = findViewById(R.id.toolbar);
+        txtSearchToolbar = findViewById(R.id.search_toolbar);
+        txtAllComicTitle = findViewById(R.id.all_comic_title);
     }
 
     private void showSearchDialog() {
@@ -99,13 +112,13 @@ public class FilterSearchActivity extends AppCompatActivity {
         EditText edtSearch = search_layout.findViewById(R.id.edt_search);
 
         alertDialog.setView(search_layout);
-        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setPositiveButton("TÌM KIẾM", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getString(R.string.search), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 fetchSearch(edtSearch.getText().toString().toLowerCase());
@@ -123,7 +136,7 @@ public class FilterSearchActivity extends AppCompatActivity {
         if(comic_search.size() > 0)
             recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_search));
         else
-            Toast.makeText(this,"Không có kết quả", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.no_results), Toast.LENGTH_SHORT).show();
     }
 
     private void showFilterDialog() {
@@ -155,13 +168,13 @@ public class FilterSearchActivity extends AppCompatActivity {
         });
 
         alertDialog.setView(filter_layout);
-        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setPositiveButton("Lọc", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getString(R.string.filter), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 List<String> filter_key = new ArrayList<>();
@@ -193,6 +206,15 @@ public class FilterSearchActivity extends AppCompatActivity {
         if(comic_filtered.size() > 0)
             recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_filtered));
         else
-            Toast.makeText(this,"Không có kết quả", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.no_results), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateView(String language) {
+        Context context = LocaleHelper.setLocale(this,language);
+        Resources resources =  context.getResources();
+
+        txtSearchToolbar.setText(resources.getString(R.string.search_tiltle_toolbar));
+        txtAllComicTitle.setText(resources.getString(R.string.ALL_COMIC));
     }
 }

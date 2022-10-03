@@ -3,13 +3,13 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_24"
-        android:title="Tìm kiếm" />
+        android:title="@string/action_search" />
     <item
         android:id="@+id/action_ranking"
         android:icon="@drawable/ic_bar_chart_24"
-        android:title="Xếp hạng" />
+        android:title="@string/action_ranking" />
     <item
         android:id="@+id/action_change_language"
         android:icon="@drawable/ic_settings_24"
-        android:title="Đổi ngôn ngữ" />
+        android:title="@string/action_change_language" />
 </menu>

@@ -15,10 +15,11 @@
         android:minHeight="?attr/actionBarSize">
 
         <TextView
+            android:id="@+id/search_toolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="TÌM KIẾM"
+            android:text="@string/search_tiltle_toolbar"
             android:textColor="@color/textColor"
             android:textSize="28sp" />
     </androidx.appcompat.widget.Toolbar>
@@ -34,14 +35,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
-            android:weightSum="7">
+            android:padding="8dp">
 
             <TextView
+                android:id="@+id/all_comic_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="ALL COMIC"
+                android:layout_weight="1"
+                android:text="@string/ALL_COMIC"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -49,7 +50,7 @@
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="4"
+                android:layout_weight="1"
                 android:background="@drawable/ic_horizontal_rule_24" />
         </LinearLayout>
 
@@ -67,6 +68,6 @@
         android:background="@color/columnColor"
         app:itemIconTint="@color/item_menu"
         app:itemTextColor="@color/item_menu"
-        app:menu="@menu/filter_search_menu"/>
+        app:menu="@menu/filter_search_menu" />
 
 </RelativeLayout>

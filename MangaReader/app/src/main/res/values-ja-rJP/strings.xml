@@ -1,2 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">MangaReader</string>
+    <string name="slogan">サービスを引き続き使用するには、アカウントにログインしてください。</string>
+    <string name="slogan_signup">登録ボタンをクリックすると、利用規約に同意したことになります。</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- activity_main -->
+    <string name="new_comic">新しい話</string>
+    <!-- activity_category -->
+    <string name="CATEGORY">カテゴリー</string>
+    <string name="chip_all">全て</string>
+    <!-- activity_chapter -->
+    <string name="count_favorite">意見：</string>
+    <string name="count_like">好き:</string>
+    <string name="category">カテゴリー：</string>
+    <string name="favorite_btn">従う</string>
+    <string name="like_btn">好む</string>
+    <!-- activity_favorite -->
+    <string name="FAVORITE">お気に入り</string>
+    <!-- activity_filter_search -->
+    <string name="search_tiltle_toolbar">探す</string>
+    <string name="ALL_COMIC">すべてのコミック</string>
+    <!-- activity_login -->
+    <string name="input_username_hint">アカウントを入力</string>
+    <string name="input_password_hint">パスワードを入力する</string>
+    <string name="login_btn">ログイン</string>
+    <string name="signup_new_account">新しいアカウントにサインアップする</string>
+    <!-- activity_profile -->
+    <string name="logout">ログアウト</string>
+    <!-- activity_ranking -->
+    <string name="ranking_title_toolbar">評価</string>
+    <!-- activity_signup -->
+    <string name="input_passwordconf_hint">パスワードを認証する</string>
+    <string name="input_email_hint">Eメール</string>
+    <string name="signup_btn">登録</string>
+    <!-- dialog_email_change -->
+    <string name="email_change">メールアドレスを変更</string>
+    <string name="input_new_email_hint">新しいメールを入力してください</string>
+    <!-- dialog_language_change -->
+    <string name="language_change">言語を変更</string>
+    <string name="vietnamese">ベトナム語</string>
+    <string name="english">英語</string>
+    <string name="japanese">日本語</string>
+    <!-- dialog_name_change -->
+    <string name="name_change">名前を変更</string>
+    <string name="input_new_name_hint">新しい名前を入力してください</string>
+    <!-- dialog_options -->
+    <string name="filter_by_category">カテゴリで絞り込む</string>
+    <string name="input_category_hint">カテゴリを入力してください…</string>
+    <!-- dialog_pass_change -->
+    <string name="password_change">パスワードを変更する</string>
+    <string name="input_current_password">現在のパスワードを入力してください</string>
+    <string name="input_new_password_hint">新しいパスワードを入力してください</string>
+    <string name="input_new_passwordconf_hint">新しいパスワードを確認</string>
+    <!-- dialog_search -->
+    <string name="filter_by_name">名前で検索</string>
+    <string name="input_name_hint">名前を入力…</string>
+    <!-- menu_filter_search -->
+    <string name="action_filter">カテゴリで絞り込む</string>
+    <string name="action_search_by_name">名前で検索</string>
+    <!-- menu_main -->
+    <string name="action_home">ホームページ</string>
+    <string name="action_favorite">従う</string>
+    <string name="action_category">カテゴリー</string>
+    <string name="action_user">アカウント</string>
+    <!-- menu_nav -->
+    <string name="action_search">探す</string>
+    <string name="action_ranking">評価</string>
+    <string name="action_change_language">言語を変更</string>
+    <!-- main_activity -->
+    <string name="please_wait_dialog">お待ちください…</string>
+    <!-- category_activity -->
+    <string name="no_comic">このカテゴリにはまだ記事がありません</string>
+    <!-- chapter_activity -->
+    <string name="followed">フォローした</string>
+    <string name="follow">従う</string>
+    <string name="liked">いいね</string>
+    <string name="like">お気に入り</string>
+    <string name="follow_toast">ウォッチリストに追加</string>
+    <string name="unfollow_toast">ウォッチリストから削除されました</string>
+    <string name="like_toast">この話を高く評価しました</string>
+    <string name="dislike_toast">キャンセル済み</string>
+    <!-- favorite_activity -->
+    <string name="no_comic_follow">まだ気に入ったストーリーはありません</string>
+    <!-- filter_search_activity -->
+    <string name="search">探す</string>
+    <string name="no_results">検索結果はありません</string>
+    <string name="filter">フィルター</string>
+    <!-- login_activity -->
+    <string name="login_success">正常にログインしました</string>
+    <string name="password_wrong">パスワードが正しくありません</string>
+    <string name="username_wrong">アカウントが存在しません</string>
+    <!-- profile_activity -->
+    <string name="invalid_username">無効な名前</string>
+    <string name="name_change_success">名前を変更しました</string>
+    <string name="change">変化する</string>
+    <string name="invalid_email">無効な電子メール</string>
+    <string name="wrong_format_email">メールの形式が間違っています</string>
+    <string name="email_change_success">メールを正常に変更</string>
+    <string name="invalid_password">無効なパスワード</string>
+    <string name="password_change_success">パスワードを正常に変更</string>
+    <string name="wrong_passwordconf">確認パスワードが一致しません</string>
+    <string name="wrong_password_current">このパスワードは間違っています</string>
+    <!-- ranking_activity -->
+    <string name="ranking_by_like">いいねによる評価</string>
+    <string name="ranking_by_follow">フォロワーによるランク付け</string>
+    <!-- sign_up_activity -->
+    <string name="username_exists">アカウントはすでに存在しています</string>
+    <string name="sign_up_success">サインアップ成功</string>
+    <string name="username_not_fill">ログインしていません</string>
+    <string name="password_not_fill">パスワードが入力されていません</string>
+    <!-- view_comic_activity -->
+    <string name="reading_first_chapter">あなたは最初の章を読んでいます</string>
+    <string name="reading_last_chapter">あなたは最後の章を読んでいます</string>
+    <string name="no_image">画像なし</string>
+    <string name="loading_chapter">この章を読み込んでいます…</string>
+    <!-- dialog_please_login -->
+    <string name="please_login">この機能を実行するにはログインしてください</string>
+    <string name="notice">通知する!</string>
+    <string name="cancel">キャンセル</string>
+    <string name="login">ログイン</string>
+    <string name="confirm">確認</string>
+    <string name="restart">この変更を適用するためにアプリケーションが再起動します</string>
+</resources>

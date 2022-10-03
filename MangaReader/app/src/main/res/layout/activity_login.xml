@@ -52,8 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="Nhập tài khoản"
-            android:text="huan1"
+            android:hint="@string/input_username_hint"
             android:textSize="20sp" />
 
         <EditText
@@ -61,8 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="Nhập mật khẩu"
-            android:text="123"
+            android:hint="@string/input_password_hint"
             android:inputType="textPassword"
             android:textSize="20sp" />
 
@@ -71,10 +69,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Đăng nhập"
+            android:text="@string/login_btn"
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/txt_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -89,7 +88,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="Đăng kí tài khoản mới"
+            android:text="@string/signup_new_account"
+            android:textStyle="bold"
             android:textSize="20sp" />
     </LinearLayout>
 

@@ -16,15 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
-            android:weightSum="5">
+            android:padding="8dp">
 
             <TextView
-                android:id="@+id/t123"
+                android:id="@+id/category_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/Category"
+                android:layout_weight="1"
+                android:text="@string/CATEGORY"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -32,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:background="@drawable/ic_horizontal_rule_24" />
         </LinearLayout>
 
@@ -59,7 +58,7 @@
                         android:id="@+id/chip_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tất cả"
+                        android:text="@string/chip_all"
                         android:textSize="18sp"
                         android:textColor="@color/text_color_state_list"
                         style="@style/Widget.MaterialComponents.Chip.Choice"

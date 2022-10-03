@@ -21,10 +21,11 @@
             android:weightSum="7">
 
             <TextView
+                android:id="@+id/favorite_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="YÊU THÍCH"
+                android:text="@string/FAVORITE"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 

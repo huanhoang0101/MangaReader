@@ -15,10 +15,11 @@
         android:minHeight="?attr/actionBarSize">
 
         <TextView
+            android:id="@+id/txt_title_toolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="TÌM KIẾM"
+            android:text="@string/ranking_title_toolbar"
             android:textColor="@color/textColor"
             android:textSize="28sp" />
     </androidx.appcompat.widget.Toolbar>

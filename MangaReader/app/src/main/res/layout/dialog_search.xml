@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/columnColor"
-            android:text="Tìm kiếm theo tên"
+            android:text="@string/filter_by_name"
             android:textSize="24sp"
             android:padding="12dp"
             android:gravity="center"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:padding="12dp"
-            android:hint="Nhập tên..." />
+            android:hint="@string/input_name_hint" />
 
     </LinearLayout>
 

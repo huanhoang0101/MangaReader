@@ -31,7 +31,7 @@ public class ViewComicActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(Common.chapterIndex == 0)
-                    Toast.makeText(ViewComicActivity.this, "Bạn đang đọc Chapter đầu tiên", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewComicActivity.this, getString(R.string.reading_first_chapter), Toast.LENGTH_SHORT).show();
                 else
                 {
                     Common.chapterIndex--;
@@ -45,7 +45,7 @@ public class ViewComicActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(Common.chapterIndex == Common.chapterList.size() - 1)
-                    Toast.makeText(ViewComicActivity.this, "Bạn đang đọc Chapter cuối cùng", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewComicActivity.this, getString(R.string.reading_last_chapter), Toast.LENGTH_SHORT).show();
                 else
                 {
                     Common.chapterIndex++;
@@ -81,12 +81,12 @@ public class ViewComicActivity extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(ViewComicActivity.this, "Không có hình ảnh", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewComicActivity.this, getString(R.string.no_image), Toast.LENGTH_SHORT).show();
             }
         }
         else
         {
-            Toast.makeText(ViewComicActivity.this, "Đang nạp Chapter này...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewComicActivity.this, getString(R.string.loading_chapter), Toast.LENGTH_SHORT).show();
         }
     }
 }

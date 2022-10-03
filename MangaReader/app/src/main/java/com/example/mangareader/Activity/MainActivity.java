@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,6 +46,7 @@ import com.example.mangareader.Interface.IMenu;
 import com.example.mangareader.Model.Banner;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
+import com.example.mangareader.Service.AlarmReceiver;
 import com.example.mangareader.TouchDetectableScrollView;
 import com.example.mangareader.data_local.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -55,6 +59,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -70,12 +76,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     NavigationView navigationView;
+    ProgressDialog dialog;
 
-    private boolean isLoading;
-    private boolean isLastPage;
-    private int totalPage;
-    private int currentPage = 1;
-    private List<Comic> comicList;
+    boolean isLoading;
+    boolean isLastPage;
+    int totalPage;
+    int currentPage = 1;
+    List<Comic> comicList;
 
     //Firebase Database
     DatabaseReference table_comic;
@@ -88,12 +95,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocaleHelper.onAttach(newBase, "vi-rVN"));
     }
-
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        updateView(Paper.book().read("language"));
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +151,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
+
+        setDailyNotification();
     }
 
     private void AnhXa() {
@@ -216,6 +219,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadComic() {
+        dialog = new ProgressDialog(MainActivity.this);
+        dialog.setMessage(getString(R.string.please_wait_dialog));
+        dialog.show();
+
         table_comic.addListenerForSingleValueEvent(new ValueEventListener() {
             List<Comic> comic_load = new ArrayList<>();
 
@@ -264,20 +271,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         setCountNewComic();
         swipeRefreshLayout.setRefreshing(false);
+
+        if(!swipeRefreshLayout.isRefreshing())
+            dialog.dismiss();
     }
 
     private void ShowDialogLogin() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-        alertDialog.setTitle("Thông báo!");
-        alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+        alertDialog.setTitle(getString(R.string.notice));
+        alertDialog.setMessage(getString(R.string.please_login));
 
-        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getString(R.string.login), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -395,42 +405,85 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String currentLanguage = (String) Paper.book().read("language");
 
-        if(currentLanguage.equals("vi"))
+        //Set radio button = current language
+        if(currentLanguage.equals("vi")){
             rdVN.setChecked(true);
-        if(currentLanguage.equals("en"))
+            currentLanguage = "vi";
+        } else if(currentLanguage.equals("en")) {
             rdEN.setChecked(true);
-        if(currentLanguage.equals("ja"))
+            currentLanguage = "en";
+        } else if(currentLanguage.equals("ja")) {
             rdJP.setChecked(true);
+            currentLanguage = "ja";
+        }
 
         alertDialog.setView(languageChange_layout);
 
-        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+        String finalCurrentLanguage = currentLanguage;
+        alertDialog.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //setLanguageChecked(radioGroup);
-                if(rdVN.isChecked()){
+                if(rdVN.isChecked() && (!finalCurrentLanguage.equals("vi"))){
                     Paper.book().write("language", "vi");
-                    updateView(Paper.book().read("language"));
-                    setCountNewComic();
+                    ShowDialogRestart();
                 }
-                if(rdEN.isChecked()) {
+                if(rdEN.isChecked() && (!finalCurrentLanguage.equals("en"))) {
                     Paper.book().write("language", "en");
-                    updateView(Paper.book().read("language"));
-                    setCountNewComic();
+                    ShowDialogRestart();
                 }
-                if(rdJP.isChecked()) {
+                if(rdJP.isChecked() && (!finalCurrentLanguage.equals("ja"))) {
                     Paper.book().write("language", "ja");
-                    updateView(Paper.book().read("language"));
-                    setCountNewComic();
+                    ShowDialogRestart();
                 }
             }
         });
         alertDialog.show();
+    }
+
+    private void ShowDialogRestart() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setTitle(getString(R.string.notice));
+        alertDialog.setMessage(getString(R.string.restart));
+        alertDialog.setCancelable(false);
+
+        alertDialog.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                RestartApp();
+            }
+        });
+        alertDialog.show();
+    }
+
+    private void RestartApp() {
+        @SuppressLint("UnspecifiedImmutableFlag")
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 1000,
+                getIntent(), PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent);
+        System.exit(0);
+    }
+
+    private void setDailyNotification() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.HOUR_OF_DAY, 0);
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
+                0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
     }
 }

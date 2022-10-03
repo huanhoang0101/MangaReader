@@ -50,10 +50,11 @@
                     android:weightSum="7">
 
                     <TextView
+                        android:id="@+id/follow_count"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:text="Lượt theo dõi:"
+                        android:text="@string/count_favorite"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -74,10 +75,11 @@
                     android:weightSum="7">
 
                     <TextView
+                        android:id="@+id/like_count"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:text="Lượt thích:"
+                        android:text="@string/count_like"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -99,9 +101,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/category_comic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thể loại:"
+                        android:text="@string/category"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -114,7 +117,7 @@
                         <com.google.android.material.chip.ChipGroup
                             android:id="@+id/chip_group_chapter"
                             app:singleLine="false"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent" />
                     </HorizontalScrollView>
 
@@ -169,7 +172,7 @@
             android:layout_weight="1"
             android:backgroundTint="#FF0057"
             android:drawableLeft="@drawable/ic_favorite_24"
-            android:text="Theo dõi"
+            android:text="@string/favorite_btn"
             android:textSize="16sp" />
 
         <Button
@@ -180,7 +183,7 @@
             android:layout_weight="1"
             android:backgroundTint="#00B0FF"
             android:drawableLeft="@drawable/ic_like_24"
-            android:text="Like"
+            android:text="@string/like_btn"
             android:textSize="16sp" />
     </LinearLayout>
 

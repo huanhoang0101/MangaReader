@@ -7,26 +7,34 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mangareader.Adapter.MyComicAdapter;
 import com.example.mangareader.Common.Common;
+import com.example.mangareader.Interface.ILanguage;
 import com.example.mangareader.Interface.IMenu;
 import com.example.mangareader.Model.Comic;
 import com.example.mangareader.R;
+import com.example.mangareader.data_local.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteActivity extends AppCompatActivity implements IMenu {
+import io.paperdb.Paper;
+
+public class FavoriteActivity extends AppCompatActivity implements IMenu, ILanguage {
 
     RecyclerView recyclerView;
     BottomNavigationView bottomNavigationView;
+    TextView txtFavoriteTitle;
 
     @Override
     protected void onRestart() {
@@ -41,6 +49,8 @@ public class FavoriteActivity extends AppCompatActivity implements IMenu {
         setContentView(R.layout.activity_favorite);
 
         AnhXa();
+
+        updateView(Paper.book().read("language"));
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
@@ -61,6 +71,7 @@ public class FavoriteActivity extends AppCompatActivity implements IMenu {
     private void AnhXa() {
         recyclerView = findViewById(R.id.recycler_favorite);
         bottomNavigationView = findViewById(R.id.bottom_nav);
+        txtFavoriteTitle = findViewById(R.id.favorite_title);
     }
 
     private void fetchFavorite() {
@@ -73,7 +84,7 @@ public class FavoriteActivity extends AppCompatActivity implements IMenu {
         }
         recyclerView.setAdapter(new MyComicAdapter(getBaseContext(), comic_favorite));
         if(comic_favorite.size() == 0)
-            Toast.makeText(this, "Bạn chưa yêu thích truyện nào", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_comic_follow), Toast.LENGTH_SHORT).show();
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -96,5 +107,13 @@ public class FavoriteActivity extends AppCompatActivity implements IMenu {
                     startActivity(new Intent(FavoriteActivity.this, ProfileActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void updateView(String language) {
+        Context context = LocaleHelper.setLocale(this,language);
+        Resources resources =  context.getResources();
+
+        txtFavoriteTitle.setText(resources.getString(R.string.FAVORITE));
     }
 }

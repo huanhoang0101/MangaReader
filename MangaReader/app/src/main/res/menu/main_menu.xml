@@ -5,26 +5,26 @@
     <item
         android:id="@+id/action_home"
         android:icon="@drawable/ic_home_24"
-        android:title="Home"
+        android:title="@string/action_home"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_favorite"
         android:enabled="true"
         android:icon="@drawable/ic_favorite_24"
-        android:title="Theo dõi"
+        android:title="@string/action_favorite"
         app:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/action_category"
         android:enabled="true"
         android:icon="@drawable/ic_awesome_24"
-        android:title="Thể loại"
+        android:title="@string/action_category"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_user"
         android:enabled="true"
         android:icon="@drawable/ic_person_24"
-        android:title="Tài khoản"
+        android:title="@string/action_user"
         app:showAsAction="ifRoom" />
 
 </menu>

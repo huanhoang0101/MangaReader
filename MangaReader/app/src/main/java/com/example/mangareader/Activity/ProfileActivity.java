@@ -42,16 +42,11 @@ import io.paperdb.Paper;
 
 public class ProfileActivity extends AppCompatActivity implements IMenu, ILanguage {
 
-    TextView txtName, txtUserName, txtPass, txtEmail, txtChangeLanguage, txtLogout;
+    TextView txtName, txtUserName, txtPass, txtEmail, txtLogout;
     BottomNavigationView bottomNavigationView;
 
     //Firebase Database
     DatabaseReference table_user;
-
-    boolean lang_selected = true;
-    Context context;
-    Resources resources;
-    TextView txtTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
 
         AnhXa();
         ShowInfo();
+        updateView(Paper.book().read("language"));
 
         bottomNavigationView.setSelectedItemId(R.id.action_user);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -102,13 +98,6 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
                 Common.currentUser = null;
             }
         });
-
-//        txtChangeLanguage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ChangeLanguage();
-//            }
-//        });
     }
 
     private void ShowInfo() {
@@ -125,10 +114,8 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
         txtUserName = findViewById(R.id.txt_username_profile);
         txtPass = findViewById(R.id.txt_pass_profile);
         txtEmail = findViewById(R.id.txt_email_profile);
-        txtChangeLanguage = findViewById(R.id.txt_change_language);
         txtLogout = findViewById(R.id.txt_logout_profile);
         bottomNavigationView = findViewById(R.id.menu_nav);
-        txtTest = findViewById(R.id.txtTest);
     }
 
 
@@ -152,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (edtNewName.getText().toString().isEmpty()) {
-                    Toast.makeText(ProfileActivity.this, "Tên không hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, getString(R.string.invalid_username), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Map<String, Object> nameChange = new HashMap<>();
@@ -163,7 +150,7 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(ProfileActivity.this, "Đổi tên thành công", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfileActivity.this, getString(R.string.name_change_success), Toast.LENGTH_SHORT).show();
                                 Common.currentUser.setName(edtNewName.getText().toString());
                                 txtName.setText(Common.currentUser.getName());
                             }
@@ -189,21 +176,21 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
 
         alertDialog.setView(emailChange_layout);
 
-        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setPositiveButton("ĐỔI", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getString(R.string.change), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (edtNewEmail.getText().toString().isEmpty()) {
-                    Toast.makeText(ProfileActivity.this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, getString(R.string.invalid_email), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!(edtNewEmail.getText().toString().contains("@gmail.com"))) {
-                    Toast.makeText(ProfileActivity.this, "Sai định dạng Email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, getString(R.string.wrong_format_email), Toast.LENGTH_SHORT).show();
                 } else {
                     Map<String, Object> EmailChange = new HashMap<>();
                     EmailChange.put("email", edtNewEmail.getText().toString());
@@ -213,7 +200,7 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(ProfileActivity.this, "Đổi Email thành công", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ProfileActivity.this, getString(R.string.email_change_success), Toast.LENGTH_SHORT).show();
                                     Common.currentUser.setEmail(edtNewEmail.getText().toString());
                                     txtEmail.setText(Common.currentUser.getEmail());
                                 }
@@ -242,17 +229,17 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
 
         alertDialog.setView(passChange_layout);
 
-        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setPositiveButton("Thay đổi", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getString(R.string.change), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (edtNewPass.getText().toString().isEmpty()) {
-                    Toast.makeText(ProfileActivity.this, "Mật khẩu không hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, getString(R.string.invalid_password), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //Change Pass
@@ -269,7 +256,7 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        Toast.makeText(ProfileActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ProfileActivity.this, getString(R.string.password_change_success), Toast.LENGTH_SHORT).show();
                                         Common.currentUser.setPassword(edtNewPass.getText().toString());
                                     }
                                 })
@@ -280,10 +267,10 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
                                     }
                                 });
                     } else {
-                        Toast.makeText(ProfileActivity.this, "Mật khẩu xác nhận không khớp", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, getString(R.string.wrong_passwordconf), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(ProfileActivity.this, "Mật khẩu hiện tại không chính xác", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, getString(R.string.wrong_password_current), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -292,16 +279,16 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
 
     private void ShowDialogLogin() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
-        alertDialog.setTitle("Thông báo!");
-        alertDialog.setMessage("Vui lòng đăng nhập để thực hiện chức năng này");
+        alertDialog.setTitle(getString(R.string.notice));
+        alertDialog.setMessage(getString(R.string.please_login));
 
-        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        alertDialog.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getString(R.string.login), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
@@ -309,80 +296,6 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
         });
         alertDialog.show();
     }
-
-//    private void ChangeLanguage() {
-//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProfileActivity.this);
-//
-//        LayoutInflater inflater = this.getLayoutInflater();
-//        View languageChange_layout = inflater.inflate(R.layout.dialog_language_change, null);
-//
-//        RadioButton rdVN = languageChange_layout.findViewById(R.id.rdb_VN);
-//        RadioButton rdEN = languageChange_layout.findViewById(R.id.rdb_EN);
-//        RadioButton rdJP = languageChange_layout.findViewById(R.id.rdb_JP);
-//
-//        String currentLanguage = (String) Paper.book().read("language");
-//
-//        if(currentLanguage.equals("vi"))
-//            rdVN.setChecked(true);
-//        if(currentLanguage.equals("en"))
-//            rdEN.setChecked(true);
-//        if(currentLanguage.equals("ja"))
-//            rdJP.setChecked(true);
-//
-//        alertDialog.setView(languageChange_layout);
-//
-//        alertDialog.setNegativeButton("HỦY", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//            }
-//        });
-//        alertDialog.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                //setLanguageChecked(radioGroup);
-//                if(rdVN.isChecked()){
-//                    Paper.book().write("language", "vi");
-//                    updateView((String) Paper.book().read("language"));
-//                }
-//                if(rdEN.isChecked()) {
-//                    Paper.book().write("language", "en");
-//                    updateView((String) Paper.book().read("language"));
-//                }
-//                if(rdJP.isChecked()) {
-//                    Paper.book().write("language", "ja");
-//                    updateView((String) Paper.book().read("language"));
-//                }
-//            }
-//        });
-//        alertDialog.show();
-//    }
-
-//    private void setLanguageChecked(RadioGroup radioGroup) {
-//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @SuppressLint("NonConstantResourceId")
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//                switch (i) {
-//                    case R.id.rdb_VN:
-//                        Paper.book().write("language", "vi");
-//                        updateView((String) Paper.book().read("language"));
-//                        Toast.makeText(ProfileActivity.this, (String) Paper.book().read("language") + "1", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case R.id.rdb_EN:
-//                        Paper.book().write("language", "en");
-//                        updateView((String) Paper.book().read("language"));
-//                        Toast.makeText(ProfileActivity.this, (String) Paper.book().read("language")+ "1", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case R.id.rdb_JP:
-//                        Paper.book().write("language", "ja-rJP");
-//                        updateView((String) Paper.book().read("language"));
-//                        Toast.makeText(ProfileActivity.this, (String) Paper.book().read("language"), Toast.LENGTH_SHORT).show();
-//                        break;
-//                }
-//            }
-//        });
-//    }
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -410,6 +323,7 @@ public class ProfileActivity extends AppCompatActivity implements IMenu, ILangua
     public void updateView(String language) {
         Context context = LocaleHelper.setLocale(this, language);
         Resources resources = context.getResources();
-        txtTest.setText(resources.getString(R.string.new_comic));
+
+        txtLogout.setText(resources.getString(R.string.logout));
     }
 }

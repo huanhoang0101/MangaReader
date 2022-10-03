@@ -1,11 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MangaReader</string>
     <string name="slogan">Vui lòng đăng nhập vào tài khoản của bạn để tiếp tục sử dụng dịch vụ.</string>
     <string name="slogan_signup">Nhấn nút đăng ký đồng nghĩa với bạn đã đồng ý với các điều khoản của chúng tôi.</string>
-    <string name="new_comic">TRUYỆN MỚI</string>
-    <string name="Category" translatable="false">THỂ LOẠI</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- activity_main -->
+    <string name="new_comic">TRUYỆN MỚI</string>
+    <!-- activity_category -->
+    <string name="CATEGORY">THỂ LOẠI</string>
+    <string name="chip_all">Tất cả</string>
+    <!-- activity_chapter -->
+    <string name="count_favorite">Lượt theo dõi:</string>
+    <string name="count_like">Lượt thích:</string>
+    <string name="category">Thể loại:</string>
+    <string name="favorite_btn">Theo dõi</string>
+    <string name="like_btn">Thích</string>
+    <!-- activity_favorite -->
+    <string name="FAVORITE">YÊU THÍCH</string>
+    <!-- activity_filter_search -->
+    <string name="search_tiltle_toolbar">TÌM KIẾM</string>
+    <string name="ALL_COMIC">ALL COMIC</string>
+    <!-- activity_login -->
+    <string name="input_username_hint">Nhập tài khoản</string>
+    <string name="input_password_hint">Nhập mật khẩu</string>
+    <string name="login_btn">Đăng nhập</string>
+    <string name="signup_new_account">Đăng kí tài khoản mới</string>
+    <!-- activity_profile -->
+    <string name="logout">Đăng xuất</string>
+    <!-- activity_ranking -->
+    <string name="ranking_title_toolbar">XẾP HẠNG</string>
+    <!-- activity_signup -->
+    <string name="input_passwordconf_hint">Xác nhận mật khẩu</string>
+    <string name="input_email_hint">Email</string>
+    <string name="signup_btn">Đăng ký</string>
+    <!-- dialog_email_change -->
+    <string name="email_change">Đổi email</string>
+    <string name="input_new_email_hint">Nhập email mới</string>
+    <!-- dialog_language_change -->
+    <string name="language_change">Đổi ngôn ngữ</string>
+    <string name="vietnamese">Tiếng Việt</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="japanese">Tiếng Nhật</string>
+    <!-- dialog_name_change -->
+    <string name="name_change">Đổi tên</string>
+    <string name="input_new_name_hint">Nhập tên mới</string>
+    <!-- dialog_options -->
+    <string name="filter_by_category">Lọc theo thể loại</string>
+    <string name="input_category_hint">Nhập thể loại…</string>
+    <!-- dialog_pass_change -->
+    <string name="password_change">Đổi mật khẩu</string>
+    <string name="input_current_password">Nhập mật khẩu hiện tại</string>
+    <string name="input_new_password_hint">Nhập mật khẩu mới</string>
+    <string name="input_new_passwordconf_hint">Xác nhận mật khẩu mới</string>
+    <!-- dialog_search -->
+    <string name="filter_by_name">Tìm kiếm theo tên</string>
+    <string name="input_name_hint">Nhập tên…</string>
+    <!-- menu_filter_search -->
+    <string name="action_filter">Lọc theo thể loại</string>
+    <string name="action_search_by_name">Tìm kiếm theo tên</string>
+    <!-- menu_main -->
+    <string name="action_home">Home</string>
+    <string name="action_favorite">Theo dõi</string>
+    <string name="action_category">Thể loại</string>
+    <string name="action_user">Tài khoản</string>
+    <!-- menu_nav -->
+    <string name="action_search">Tìm kiếm</string>
+    <string name="action_ranking">Xếp hạng</string>
+    <string name="action_change_language">Đổi ngôn ngữ</string>
+    <!-- main_activity -->
+    <string name="please_wait_dialog">Vui lòng chờ…</string>
+    <!-- category_activity -->
+    <string name="no_comic">Chưa có truyện thuộc thể loại này</string>
+    <!-- chapter_activity -->
+    <string name="followed">Đã theo dõi</string>
+    <string name="follow">Theo dõi</string>
+    <string name="liked">Đã Like</string>
+    <string name="like">Like</string>
+    <string name="follow_toast">Đã thêm vào danh sách theo dõi</string>
+    <string name="unfollow_toast">Đã xóa khỏi danh sách theo dõi</string>
+    <string name="like_toast">Đã Like truyện này</string>
+    <string name="dislike_toast">Đã hủy Like</string>
+    <!-- favorite_activity -->
+    <string name="no_comic_follow">Bạn chưa yêu thích truyện nào</string>
+    <!-- filter_search_activity -->
+    <string name="search">Tìm kiếm</string>
+    <string name="no_results">Không có kết quả</string>
+    <string name="filter">Lọc</string>
+    <!-- login_activity -->
+    <string name="login_success">Đăng nhập thành công</string>
+    <string name="password_wrong">Mật khẩu không đúng</string>
+    <string name="username_wrong">Tài khoản không tồn tại</string>
+    <!-- profile_activity -->
+    <string name="invalid_username">Tên không hợp lệ</string>
+    <string name="name_change_success">Đổi tên thành công</string>
+    <string name="change">ĐỔI</string>
+    <string name="invalid_email">Email không hợp lệ</string>
+    <string name="wrong_format_email">Sai định dạng Email</string>
+    <string name="email_change_success">Đổi Email thành công</string>
+    <string name="invalid_password">Mật khẩu không hợp lệ</string>
+    <string name="password_change_success">Đổi mật khẩu thành công</string>
+    <string name="wrong_passwordconf">Mật khẩu xác nhận không khớp</string>
+    <string name="wrong_password_current">Mật khẩu hiện tại không chính xác</string>
+    <!-- ranking_activity -->
+    <string name="ranking_by_like">Xếp hạng theo lượt Like</string>
+    <string name="ranking_by_follow">Xếp hạng theo lượt Theo dõi</string>
+    <!-- sign_up_activity -->
+    <string name="username_exists">Tài khoản đã tồn tại</string>
+    <string name="sign_up_success">Đăng ký thành công</string>
+    <string name="username_not_fill">Chưa nhập tài khoản</string>
+    <string name="password_not_fill">Chưa nhập mật khẩu</string>
+    <!-- view_comic_activity -->
+    <string name="reading_first_chapter">Bạn đang đọc Chapter đầu tiên</string>
+    <string name="reading_last_chapter">Bạn đang đọc Chapter cuối cùng</string>
+    <string name="no_image">Không có hình ảnh</string>
+    <string name="loading_chapter">Đang nạp Chapter này…</string>
+    <!-- dialog_please_login -->
+    <string name="please_login">Vui lòng đăng nhập để thực hiện chức năng này</string>
+    <string name="notice">Thông báo!</string>
+    <string name="cancel">HỦY</string>
+    <string name="login">Đăng nhập</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="restart">Ứng dụng sẽ khởi động lại để áp dụng thay đổi này</string>
 </resources>

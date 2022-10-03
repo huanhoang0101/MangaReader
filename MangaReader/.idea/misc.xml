@@ -10,6 +10,7 @@
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/activity_filter_search.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/activity_notification.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/activity_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/activity_ranking.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/activity_sign_up.xml" value="0.25416666666666665" />
@@ -22,9 +23,14 @@
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/dialog_search.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/fragment_ranking_favorite.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/fragment_ranking_like.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/item_chapter.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/item_chip.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/item_chip_category.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/item_comic.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/item_layout_header_nav.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/item_loading.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/layout/item_view_pager.xml" value="0.22592592592592592" />
+        <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/menu/filter_search_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/menu/main_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (2)/MangaReader/MangaReader/app/src/main/res/menu/nav_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/qdh1/Desktop/New folder (3)/MangaReader/MangaReader/app/src/main/res/layout/activity_category.xml" value="0.25416666666666665" />
