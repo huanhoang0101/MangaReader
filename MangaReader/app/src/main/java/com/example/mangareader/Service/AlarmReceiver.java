@@ -32,8 +32,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.logo);
         Notification notification = builder.setContentTitle("Chào buổi sáng")
-                .setContentText("Đọc truyện để khởi đầu buổi sáng nào!")
-                .setSmallIcon(R.drawable.logo)
+                .setContentText("Đọc truyện khởi đầu buổi sáng nào!")
+                .setSmallIcon(R.drawable.ic_baseline_catching_pokemon_24)
                 .setLargeIcon(bitmap)
                 .setContentIntent(pendingIntent).build();
 
