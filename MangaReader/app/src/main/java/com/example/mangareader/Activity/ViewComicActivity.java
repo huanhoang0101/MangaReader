@@ -36,7 +36,7 @@ public class ViewComicActivity extends AppCompatActivity {
                 {
                     Common.chapterIndex--;
                     fetchLinks(Common.chapterList.get(Common.chapterIndex));
-                    txtChapName.setText(Common.chapterList.get(Common.chapterIndex).Name);
+                    txtChapName.setText(Common.chapterList.get(Common.chapterIndex).getName());
                 }
             }
         });
@@ -50,7 +50,7 @@ public class ViewComicActivity extends AppCompatActivity {
                 {
                     Common.chapterIndex++;
                     fetchLinks(Common.chapterList.get(Common.chapterIndex));
-                    txtChapName.setText(Common.chapterList.get(Common.chapterIndex).Name);
+                    txtChapName.setText(Common.chapterList.get(Common.chapterIndex).getName());
                 }
             }
         });
@@ -65,14 +65,14 @@ public class ViewComicActivity extends AppCompatActivity {
     }
 
     private void fetchLinks(Chapter chapter) {
-        if(chapter.Links != null)
+        if(chapter.getLinks() != null)
         {
-            if(chapter.Links.size() > 0)
+            if(chapter.getLinks().size() > 0)
             {
-                MyViewPagerAdapter adapter = new MyViewPagerAdapter(getBaseContext(), chapter.Links);
+                MyViewPagerAdapter adapter = new MyViewPagerAdapter(getBaseContext(), chapter.getLinks());
                 viewPager.setAdapter(adapter);
 
-                txtChapName.setText(Common.formatString(Common.chapterSelected.Name));
+                txtChapName.setText(Common.formatString(Common.chapterSelected.getName()));
 
                 //Animation
                 BookFlipPageTransformer bookFlipPageTransformer = new BookFlipPageTransformer();

@@ -72,7 +72,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
 
-        toolbar.setTitle(Common.comicSelected.Name);
+        toolbar.setTitle(Common.comicSelected.getName());
 
         //Set icon
         toolbar.setNavigationIcon(R.drawable.ic_left_24);
@@ -95,7 +95,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
             @Override
             public void onClick(View view) {
                 if (Common.Login) {
-                    if (Common.currentUser.getFavorites().contains(Common.comicSelected.Id)) {
+                    if (Common.currentUser.getFavorites().contains(Common.comicSelected.getId())) {
                         RemoveFavorite();
                     } else {
                         AddFavorite();
@@ -111,7 +111,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
             @Override
             public void onClick(View view) {
                 if (Common.Login) {
-                    if (Common.currentUser.getLikes().contains(Common.comicSelected.Id)) {
+                    if (Common.currentUser.getLikes().contains(Common.comicSelected.getId())) {
                         RemoveLike();
                     } else {
                         AddLike();
@@ -125,11 +125,11 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
 
     private void ViewFavoriteAndLike() {
         //Favorite
-        if (Common.currentUser.getFavorites().contains(Common.comicSelected.Id)) {
+        if (Common.currentUser.getFavorites().contains(Common.comicSelected.getId())) {
             btnFavorite.setText(getString(R.string.followed));
         }
         //Like
-        if (Common.currentUser.getLikes().contains(Common.comicSelected.Id)) {
+        if (Common.currentUser.getLikes().contains(Common.comicSelected.getId())) {
             btnLike.setText(getString(R.string.liked));
         }
     }
@@ -155,19 +155,19 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
     }
 
     private void fetchChapter(Comic comicSelected) {
-        Common.chapterList = comicSelected.Chapters;
-        recyclerView.setAdapter(new MyChapterAdapter(this, comicSelected.Chapters));
+        Common.chapterList = comicSelected.getChapters();
+        recyclerView.setAdapter(new MyChapterAdapter(this, comicSelected.getChapters()));
         txtChapterName.setText(new StringBuilder("CHAPTER (")
-                .append(comicSelected.Chapters.size())
+                .append(comicSelected.getChapters().size())
                 .append(")"));
     }
 
     private void AddFavorite() {
         Map<String, Object> favorites = new HashMap<>();
         if (Common.currentUser.getFavorites().length() == 0)
-            newFavorites = Common.currentUser.getFavorites() + Common.comicSelected.Id;
+            newFavorites = Common.currentUser.getFavorites() + Common.comicSelected.getId();
         else
-            newFavorites = Common.currentUser.getFavorites() + "," + Common.comicSelected.Id;
+            newFavorites = Common.currentUser.getFavorites() + "," + Common.comicSelected.getId();
         favorites.put("favorites", newFavorites);
 
         table_user.child(Common.currentUser.getUserName())
@@ -177,7 +177,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
                     public void onComplete(@NonNull Task<Void> task) {
                         btnFavorite.setText(getString(R.string.followed));
                         Common.currentUser.setFavorites(newFavorites);
-                        Common.comicSelected.Favorite = Common.comicSelected.Favorite + 1;
+                        Common.comicSelected.setFavorite(Common.comicSelected.getFavorite() + 1);
                         UpdateFavoriteComic();
                         Toast.makeText(ChapterActivity.this, getString(R.string.follow_toast), Toast.LENGTH_SHORT).show();
                     }
@@ -195,7 +195,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
         String[] arr = oldFavorites.split(",");
         newFavorites = "";
         for (String s : arr) {
-            if (s.equals(Common.comicSelected.Id)) {
+            if (s.equals(Common.comicSelected.getId())) {
                 continue;
             } else {
                 newFavorites = newFavorites + "," + s;
@@ -214,7 +214,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
                     public void onComplete(@NonNull Task<Void> task) {
                         btnFavorite.setText(getString(R.string.follow));
                         Common.currentUser.setFavorites(newFavorites);
-                        Common.comicSelected.Favorite = Common.comicSelected.Favorite - 1;
+                        Common.comicSelected.setFavorite(Common.comicSelected.getFavorite() - 1);
                         UpdateFavoriteComic();
                         Toast.makeText(ChapterActivity.this, getString(R.string.unfollow_toast), Toast.LENGTH_SHORT).show();
                     }
@@ -230,9 +230,9 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
     private void AddLike() {
         Map<String, Object> likes = new HashMap<>();
         if (Common.currentUser.getLikes().length() == 0)
-            newLike = Common.currentUser.getLikes() + Common.comicSelected.Id;
+            newLike = Common.currentUser.getLikes() + Common.comicSelected.getId();
         else
-            newLike = Common.currentUser.getLikes() + "," + Common.comicSelected.Id;
+            newLike = Common.currentUser.getLikes() + "," + Common.comicSelected.getId();
         likes.put("likes", newLike);
 
         table_user.child(Common.currentUser.getUserName())
@@ -242,7 +242,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
                     public void onComplete(@NonNull Task<Void> task) {
                         btnLike.setText(getString(R.string.liked));
                         Common.currentUser.setLikes(newLike);
-                        Common.comicSelected.Like = Common.comicSelected.Like + 1;
+                        Common.comicSelected.setLike(Common.comicSelected.getLike() + 1);
                         UpdateLikeComic();
                         Toast.makeText(ChapterActivity.this, getString(R.string.like_toast), Toast.LENGTH_SHORT).show();
                     }
@@ -260,7 +260,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
         String[] arr = oldLike.split(",");
         newLike = "";
         for (String s : arr) {
-            if (s.equals(Common.comicSelected.Id)) {
+            if (s.equals(Common.comicSelected.getId())) {
                 continue;
             } else {
                 newLike = newLike + "," + s;
@@ -279,7 +279,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
                     public void onComplete(@NonNull Task<Void> task) {
                         btnLike.setText(getString(R.string.like));
                         Common.currentUser.setLikes(newLike);
-                        Common.comicSelected.Like = Common.comicSelected.Like - 1;
+                        Common.comicSelected.setLike(Common.comicSelected.getLike() - 1);
                         UpdateLikeComic();
                         Toast.makeText(ChapterActivity.this, getString(R.string.dislike_toast), Toast.LENGTH_SHORT).show();
                     }
@@ -294,10 +294,10 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
 
     private void UpdateLikeComic() {
         Map<String, Object> like = new HashMap<>();
-        int Likes = Common.comicSelected.Like;
+        int Likes = Common.comicSelected.getLike();
         like.put("Like", Likes);
 
-        table_comic.child(Common.comicSelected.Id)
+        table_comic.child(Common.comicSelected.getId())
                 .updateChildren(like)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -315,10 +315,10 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
 
     private void UpdateFavoriteComic() {
         Map<String, Object> favorite = new HashMap<>();
-        int favorites = Common.comicSelected.Favorite;
+        int favorites = Common.comicSelected.getFavorite();
         favorite.put("Favorite", favorites);
 
-        table_comic.child(Common.comicSelected.Id)
+        table_comic.child(Common.comicSelected.getId())
                 .updateChildren(favorite)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -335,12 +335,12 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
     }
 
     private void LoadInfoComic() {
-        Picasso.get().load(Common.comicSelected.Image).into(imgBanner);
+        Picasso.get().load(Common.comicSelected.getImage()).into(imgBanner);
 
-        txtFavorite.setText(String.valueOf(Common.comicSelected.Favorite));
-        txtLike.setText(String.valueOf(Common.comicSelected.Like));
+        txtFavorite.setText(String.valueOf(Common.comicSelected.getFavorite()));
+        txtLike.setText(String.valueOf(Common.comicSelected.getLike()));
 
-        String category = Common.comicSelected.Category;
+        String category = Common.comicSelected.getCategory();
         String[] arr = category.split(",");
 
         for (String s : arr) {
@@ -356,7 +356,7 @@ public class ChapterActivity extends AppCompatActivity implements ILanguage {
             chipGroup.addView(chip);
         }
 
-        txtSummary.setText(Common.comicSelected.Summary);
+        txtSummary.setText(Common.comicSelected.getSummary());
     }
 
     private void ShowDialogLogin(){

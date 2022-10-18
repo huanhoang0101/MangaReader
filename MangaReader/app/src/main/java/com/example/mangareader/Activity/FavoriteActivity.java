@@ -77,8 +77,8 @@ public class FavoriteActivity extends AppCompatActivity implements IMenu, ILangu
     private void fetchFavorite() {
         List<Comic> comic_favorite = new ArrayList<>();
         for (Comic c : Common.comicList) {
-            if (c.Id != null) {
-                if (Common.currentUser.getFavorites().contains(c.Id))
+            if (c.getId() != null) {
+                if (Common.currentUser.getFavorites().contains(c.getId()))
                     comic_favorite.add(c);
             }
         }

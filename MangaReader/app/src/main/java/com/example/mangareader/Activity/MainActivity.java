@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onItemSelected(int i) {
                         Banner banner = bannerList.get(i);
                         for (Comic comic : Common.comicList) {
-                            if (comic.Id.equals(banner.getComic_id())) {
+                            if (comic.getId().equals(banner.getComic_id())) {
                                 Common.comicSelected = comic;
                                 Intent intent = new Intent(MainActivity.this, ChapterActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

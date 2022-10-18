@@ -3,9 +3,17 @@ package com.example.mangareader.Model;
 import java.util.List;
 
 public class Chapter {
-    public String Name;
-    public List<String> Links;
+    private String Name;
+    private List<String> Links;
 
     public Chapter() {
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public List<String> getLinks() {
+        return Links;
     }
 }

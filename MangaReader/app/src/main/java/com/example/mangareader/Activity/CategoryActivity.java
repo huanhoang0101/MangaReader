@@ -115,8 +115,8 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
     private void fetchCategory(Chip chip) {
         List<Comic> comic_category = new ArrayList<>();
         for (Comic c : Common.comicList) {
-            if (c.Category != null) {
-                if (c.Category.toLowerCase().contains(chip.getText().toString().toLowerCase(Locale.ROOT)))
+            if (c.getCategory() != null) {
+                if (c.getCategory().toLowerCase().contains(chip.getText().toString().toLowerCase(Locale.ROOT)))
                     comic_category.add(c);
             }
         }
@@ -133,8 +133,8 @@ public class CategoryActivity extends AppCompatActivity implements IMenu,ILangua
     private void SearchCategoryChip(){
         List<Comic> comic_category = new ArrayList<>();
         for (Comic c : Common.comicList) {
-            if (c.Category != null) {
-                if (c.Category.contains(Common.ChipCategoryClicked))
+            if (c.getCategory() != null) {
+                if (c.getCategory().contains(Common.ChipCategoryClicked))
                     comic_category.add(c);
             }
         }

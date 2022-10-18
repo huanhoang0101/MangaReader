@@ -65,14 +65,14 @@ public class MyComicAdapter extends RecyclerView.Adapter<MyComicAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if(holder.getItemViewType() == TYPE_ITEM) {
-            Picasso.get().load(comicList.get(position).Image).into(holder.comicImage);
-            if (comicList.get(position).Name.length() <= 25)
-                holder.comicName.setText(comicList.get(position).Name);
+            Picasso.get().load(comicList.get(position).getImage()).into(holder.comicImage);
+            if (comicList.get(position).getName().length() <= 25)
+                holder.comicName.setText(comicList.get(position).getName());
             else
-                holder.comicName.setText(comicList.get(position).Name.substring(0, 22) + "...");
-            holder.txtFavorite.setText(String.valueOf(comicList.get(position).Favorite));
-            holder.txtLike.setText(String.valueOf(comicList.get(position).Like));
-            holder.txtCategory.setText("Thể loại: " + comicList.get(position).Category);
+                holder.comicName.setText(comicList.get(position).getName().substring(0, 22) + "...");
+            holder.txtFavorite.setText(String.valueOf(comicList.get(position).getFavorite()));
+            holder.txtLike.setText(String.valueOf(comicList.get(position).getLike()));
+            holder.txtCategory.setText("Thể loại: " + comicList.get(position).getCategory());
 
             //Event
             holder.setRecyclerItemClickListener(new IRecyclerItemClickListener() {

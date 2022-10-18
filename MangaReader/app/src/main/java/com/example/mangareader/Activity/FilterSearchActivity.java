@@ -130,7 +130,7 @@ public class FilterSearchActivity extends AppCompatActivity implements ILanguage
     private void fetchSearch(String query) {
         List<Comic> comic_search = new ArrayList<>();
         for (Comic c : Common.comicList) {
-            if (c.Name.toLowerCase().contains(query))
+            if (c.getName().toLowerCase().contains(query))
                 comic_search.add(c);
         }
         if(comic_search.size() > 0)
@@ -198,8 +198,8 @@ public class FilterSearchActivity extends AppCompatActivity implements ILanguage
     private void fetchFilterCategory(String query) {
         List<Comic> comic_filtered = new ArrayList<>();
         for (Comic c : Common.comicList) {
-            if (c.Category != null) {
-                if (c.Category.contains(query))
+            if (c.getCategory() != null) {
+                if (c.getCategory().contains(query))
                     comic_filtered.add(c);
             }
         }

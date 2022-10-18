@@ -1,7 +1,5 @@
 package com.example.mangareader.Model;
 
-import java.util.List;
-
 public class User {
     private String userName;
     private String password;
@@ -9,9 +7,6 @@ public class User {
     private String email;
     private String favorites = "";
     private String likes = "";
-
-    public User() {
-    }
 
     public User(String userName, String password, String email) {
         this.userName = userName;
